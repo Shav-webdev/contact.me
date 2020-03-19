@@ -4,7 +4,7 @@ import Main from '../../sections/main';
 import Footer from '../../sections/footer';
 import NavBar from '../../../containers/navbar/navbar';
 
-export default function HomeLayout(props) {
+export default function AboutLayout(props) {
     return (
         <>
             <Header>
