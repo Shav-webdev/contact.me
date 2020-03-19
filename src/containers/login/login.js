@@ -1,19 +1,37 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import classes from './login.module.css';
 import FormItem from '../../components/formItem/formItem';
 import { validateEmail, validatePassword } from '../../services/validations';
 import { Button } from '@material-ui/core';
-import { PASSWORD_VALIDATION_TEXT } from '../../services/constants';
+import {
+    PASSWORD_VALIDATION_TEXT,
+    EMAIL_VALIDATION_TEXT,
+} from '../../services/constants';
+import LockIcon from '@material-ui/icons/Lock';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 export default function Login(props) {
-    const [email, setEmail] = useState('');
-    const [pass, setPass] = useState('');
+    const [email, setEmail] = useState(null);
+    const [pass, setPass] = useState(null);
+    const [isBtnDisabled, setIsBtnDisabled] = useState(true);
+
+    useEffect(() => {
+        if (email && pass) {
+            setIsBtnDisabled(false);
+        } else {
+            setIsBtnDisabled(true);
+        }
+    }, [email, pass]);
 
     const getEmailValue = email => {
+        console.log('before email', email);
         setEmail(email);
+        console.log('email', email);
     };
     const getPasswordValue = pass => {
+        console.log('before pass', pass);
         setPass(pass);
+        console.log('pass', pass);
     };
 
     const onLoginBtnClick = () => {
@@ -27,13 +45,18 @@ export default function Login(props) {
 
     return (
         <div className={classes.loginWrapper}>
+            <div className={classes.loginHeadingWrapper}>
+                <h1>Sign in</h1>
+            </div>
             <FormItem
                 getInputValue={getEmailValue}
                 validateInputField={validateEmail}
-                validationText={PASSWORD_VALIDATION_TEXT}
+                validationText={EMAIL_VALIDATION_TEXT}
                 label="Email"
                 placeholder="Email"
                 type="email"
+                required={true}
+                icon={<AccountCircle />}
             />
             <FormItem
                 getInputValue={getPasswordValue}
@@ -42,8 +65,15 @@ export default function Login(props) {
                 label="Password"
                 placeholder="Password"
                 type="password"
+                required={true}
+                icon={<LockIcon />}
             />
-            <Button onClick={onLoginBtnClick} color="primary">
+            <Button
+                disabled={isBtnDisabled}
+                onClick={onLoginBtnClick}
+                variant="contained"
+                color="primary"
+            >
                 Sign In
             </Button>
         </div>

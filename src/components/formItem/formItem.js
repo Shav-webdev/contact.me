@@ -1,9 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
+import React, { useCallback, useState } from 'react';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormControl from '@material-ui/core/FormControl';
-import AccountCircle from '@material-ui/icons/AccountCircle';
+import TextField from '@material-ui/core/TextField';
 
 export default function FormItem({
     getInputValue,
@@ -12,53 +9,52 @@ export default function FormItem({
     validationText,
     placeholder,
     type,
+    icon,
+    required,
 }) {
     const [inputValue, setInputValue] = useState('');
     const [showValidationText, setShowValidationText] = useState(false);
     const [isInputValueValid, setIsInputValueValid] = useState(null);
 
     const onHandleInputValidate = () => {
-        if (!validateInputField(inputValue)) {
-            console.log('not valid');
+        if (validateInputField(inputValue)) {
+            setIsInputValueValid(true);
+            setShowValidationText(false);
+            console.log(isInputValueValid);
+            getInputValue(inputValue);
+        } else {
+            getInputValue(null);
             setIsInputValueValid(false);
             setShowValidationText(true);
-        } else {
-            setIsInputValueValid(true);
-            console.log('valid');
-            setShowValidationText(false);
-            getInputValue(inputValue);
         }
     };
 
     const handleInputChange = useCallback(e => {
         let value = e.target.value;
-        console.log(value);
         setInputValue(value);
         setShowValidationText(false);
     }, []);
 
     return (
-        <FormControl>
-            <InputLabel htmlFor="input-with-icon-adornment">{label}</InputLabel>
-            <Input
-                error={isInputValueValid}
-                onChange={e => handleInputChange(e)}
-                onBlur={onHandleInputValidate}
-                value={inputValue}
-                type={type}
-                placeholder={placeholder}
-                helperText={
-                    showValidationText && isInputValueValid
-                        ? validationText
-                        : ''
-                }
-                id={`${label}`}
-                startAdornment={
-                    <InputAdornment position="start">
-                        <AccountCircle />
-                    </InputAdornment>
-                }
-            />
-        </FormControl>
+        <TextField
+            style={{ marginBottom: '1.5rem' }}
+            id={`${label}`}
+            error={showValidationText && !isInputValueValid}
+            onChange={e => handleInputChange(e)}
+            onBlur={onHandleInputValidate}
+            value={inputValue}
+            type={type}
+            required={required}
+            placeholder={placeholder}
+            FormHelperTextProps={{ color: 'red' }}
+            helperText={
+                showValidationText && !isInputValueValid ? validationText : null
+            }
+            InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">{icon}</InputAdornment>
+                ),
+            }}
+        />
     );
 }
