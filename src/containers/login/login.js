@@ -9,6 +9,7 @@ import {
 } from '../../services/constants';
 import LockIcon from '@material-ui/icons/Lock';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import { login } from '../../services/services';
 
 export default function Login(props) {
     const [email, setEmail] = useState(null);
@@ -40,7 +41,7 @@ export default function Login(props) {
             pass,
         };
         console.log(data);
-        // login(data)
+        login(data);
     };
 
     return (
