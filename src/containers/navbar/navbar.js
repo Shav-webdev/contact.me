@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import history from '../../routes/history';
 import clsx from 'clsx';
 import { useTheme } from '@material-ui/core/styles';
 import styles from './navbar.module.css';
@@ -49,6 +50,10 @@ export default function NavBar() {
 
     const classes = useStyles();
 
+    const onRegisterBtnClick = () => {
+        history.push('/register');
+    };
+
     return (
         <>
             <div className={styles.navbarWrapper}>
@@ -69,10 +74,10 @@ export default function NavBar() {
                             <NavItem href="/contacts">Contacts</NavItem>
                         </List>
                         <div className={styles.loginBtnsWrapper}>
-                            <StyledButton btnClassName="loginBtn">
-                                Sign In
-                            </StyledButton>
-                            <StyledButton btnClassName="loginBtn">
+                            <StyledButton
+                                handleBtnClick={onRegisterBtnClick}
+                                btnClassName="loginBtn"
+                            >
                                 Sign Up
                             </StyledButton>
                         </div>

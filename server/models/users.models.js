@@ -37,10 +37,6 @@ const usersSchema = new Schema({
         type: String,
         default: 'userAvatarUrl',
     },
-    amount: {
-        type: Number,
-        default: 0,
-    },
     createdTime: {
         type: Number,
         default: () => Number(Date.now()),

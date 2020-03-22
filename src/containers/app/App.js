@@ -1,5 +1,5 @@
-import React from 'react';
-import Routes from '../../routes/routes';
+import React from "react";
+import Routes from "../../routes/routes";
 // import styles from './app.module.css';
 
 function App() {
