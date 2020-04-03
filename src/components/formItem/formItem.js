@@ -18,6 +18,7 @@ export default function FormItem({
     const handleInputChange = useCallback(e => {
         let value = e.target.value;
         getInputValue(value);
+        // eslint-disable-next-line
     }, []);
 
     const onHandleInputValidate = () => {
@@ -30,7 +31,7 @@ export default function FormItem({
 
     return (
         <TextField
-            style={{ marginBottom: "1.5rem" }}
+            style={{ marginBottom: "1rem" }}
             id={`${label}`}
             error={showValidationText}
             onChange={e => handleInputChange(e)}

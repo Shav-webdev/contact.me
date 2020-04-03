@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import history from '../../routes/history';
-import clsx from 'clsx';
-import { useTheme } from '@material-ui/core/styles';
-import styles from './navbar.module.css';
-import NavItem from '../../components/navItem/navItem';
-import List from '@material-ui/core/List';
-import StyledButton from '../../components/styledButton/styledButton';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import logo from '../../assets/images/logo.svg';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import HomeIcon from '@material-ui/icons/Home';
-import InfoIcon from '@material-ui/icons/Info';
-import ContactsIcon from '@material-ui/icons/Contacts';
-import Drawer from '@material-ui/core/Drawer';
-import { useStyles } from './navbarMUI';
+import React, { useEffect, useState } from "react";
+import clsx from "clsx";
+import { useTheme } from "@material-ui/core/styles";
+import styles from "./navbar.module.css";
+import NavItem from "../../components/navItem/navItem";
+import List from "@material-ui/core/List";
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
+import logo from "../../assets/images/logo.svg";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import HomeIcon from "@material-ui/icons/Home";
+import InfoIcon from "@material-ui/icons/Info";
+import ContactsIcon from "@material-ui/icons/Contacts";
+import Drawer from "@material-ui/core/Drawer";
+import { useStyles } from "./navbarMUI";
 
 export default function NavBar() {
     const [open, setOpen] = useState(false);
@@ -34,8 +32,8 @@ export default function NavBar() {
         function handleResize() {
             setWindowWidth(window.innerWidth);
         }
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
     }, [windowWidth]);
 
     const theme = useTheme();
@@ -49,10 +47,6 @@ export default function NavBar() {
     };
 
     const classes = useStyles();
-
-    const onRegisterBtnClick = () => {
-        history.push('/register');
-    };
 
     return (
         <>
@@ -73,14 +67,6 @@ export default function NavBar() {
                             <NavItem href="/about">About</NavItem>
                             <NavItem href="/contacts">Contacts</NavItem>
                         </List>
-                        <div className={styles.loginBtnsWrapper}>
-                            <StyledButton
-                                handleBtnClick={onRegisterBtnClick}
-                                btnClassName="loginBtn"
-                            >
-                                Sign Up
-                            </StyledButton>
-                        </div>
                     </>
                 )}
                 {menuBtnVisible && (
@@ -107,7 +93,7 @@ export default function NavBar() {
                 >
                     <div className={classes.drawerHeader}>
                         <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === 'rtl' ? (
+                            {theme.direction === "rtl" ? (
                                 <ChevronLeftIcon />
                             ) : (
                                 <ChevronRightIcon />
@@ -115,23 +101,23 @@ export default function NavBar() {
                         </IconButton>
                     </div>
                     <List>
-                        <ListItem button key={'Home'}>
+                        <ListItem button key={"Home"}>
                             <ListItemIcon>
                                 <HomeIcon />
                             </ListItemIcon>
-                            <ListItemText primary={'Home'} />
+                            <ListItemText primary={"Home"} />
                         </ListItem>
-                        <ListItem button key={'About'}>
+                        <ListItem button key={"About"}>
                             <ListItemIcon>
                                 <InfoIcon />
                             </ListItemIcon>
-                            <ListItemText primary={'About'} />
+                            <ListItemText primary={"About"} />
                         </ListItem>
-                        <ListItem button key={'Contacts'}>
+                        <ListItem button key={"Contacts"}>
                             <ListItemIcon>
                                 <ContactsIcon />
                             </ListItemIcon>
-                            <ListItemText primary={'Contacts'} />
+                            <ListItemText primary={"Contacts"} />
                         </ListItem>
                     </List>
                 </Drawer>

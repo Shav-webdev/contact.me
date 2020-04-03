@@ -1,11 +1,21 @@
 import axios from "axios";
 
-export function login(data) {
-    console.log(data);
-    axios.post("/login", data).then(res => console.log(res));
-}
-
 export function register(data) {
     console.log(data);
-    axios.post("/register", data).then(res => console.log(res));
+    axios
+        .post("/register", data)
+        .then(res => {
+            const data = {
+                showMessage: true,
+                textMessage: res.data.message,
+                variant: "success",
+            };
+        })
+        .catch(e => {
+            const data = {
+                showMessage: true,
+                textMessage: e.message,
+                variant: "error",
+            };
+        });
 }

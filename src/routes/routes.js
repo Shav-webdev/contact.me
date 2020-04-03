@@ -11,6 +11,8 @@ import NotFoundLayout from "../hoc/layouts/notFoundLayout";
 import HomeLayout from "../hoc/layouts/homeLayout";
 import history from "./history.js";
 import Register from "../containers/register/register";
+import ProfileLayout from "../hoc/layouts/profileLayout";
+import Profile from "../pages/profile/profile";
 
 export default function Routes() {
     return (
@@ -38,6 +40,11 @@ export default function Routes() {
                         path="/contacts"
                         layout={ContactsLayout}
                         component={Contacts}
+                    />
+                    <AppRoute
+                        path="/profile"
+                        layout={ProfileLayout}
+                        component={Profile}
                     />
 
                     <AppRoute

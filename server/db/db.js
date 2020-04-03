@@ -1,11 +1,18 @@
-const mongoose = require('mongoose');
-const uri = "mongodb+srv://user_1:OVcW6ZOCI9JBTxbR@cluster0-ecojk.mongodb.net/todos?retryWrites=true&w=majority";
+const mongoose = require("mongoose");
+const uri = "mongodb://localhost:27017/contact_me";
 
-mongoose.connect(uri, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-})
-    .then(() => console.log("Mongo db started ..."))
-    .catch(e => console.log(e));
-
-module.exports = mongoose;
+module.exports.db = server => {
+    mongoose
+        .connect(
+            uri,
+            {
+                useUnifiedTopology: true,
+                useNewUrlParser: true,
+                useCreateIndex: true,
+                useFindAndModify: false,
+            },
+            () => server
+        )
+        .then(() => console.log("Mongo db started ..."))
+        .catch(e => console.log(e));
+};

@@ -4,13 +4,20 @@ import Main from "../../sections/main";
 import Footer from "../../sections/footer";
 import NavBar from "../../../containers/navbar/navbar";
 
-export default function AboutLayout(props) {
+export default function ProfileLayout(props) {
+    const style = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#ccc",
+    };
+
     return (
         <>
             <Header>
                 <NavBar />
             </Header>
-            <Main>{props.children}</Main>
+            <Main style={style}>{props.children}</Main>
             <Footer></Footer>
         </>
     );

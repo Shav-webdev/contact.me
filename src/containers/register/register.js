@@ -7,7 +7,7 @@ import {
     KeyboardDatePicker,
 } from "@material-ui/pickers";
 import MomentUtils from "@date-io/moment";
-import Link from "@material-ui/core/Link";
+import { Link } from "react-router-dom";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -31,19 +31,25 @@ import {
     LAST_NAME_VALIDATION_TEXT,
     PASSWORD_VALIDATION_TEXT,
     PHONE_NUMBER_VALIDATION_TEXT,
+    GENDER_VALIDATION_TEXT,
 } from "../../services/constants";
 import LockIcon from "@material-ui/icons/Lock";
 import moment from "moment";
 import { register } from "../../services/services";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 function Copyright() {
+    const classes = useStyles();
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {"Copyright © "}
-            <Link color="inherit" href="/">
+            <Link className={classes.linkBlue} color="inherit" to="/">
                 Contact.me
             </Link>
-            {new Date().getFullYear()}
+            {"  " + new Date().getFullYear()}
             {"."}
         </Typography>
     );
@@ -62,6 +68,7 @@ export default function Register() {
     const [isPassValueValid, setIsPassValueValid] = useState(false);
     const [isPhoneValueValid, setIsPhoneValueValid] = useState(false);
     const [isDateValid, setIsDateValid] = useState(false);
+    const [isGenderValid, setIsGenderValid] = useState(false);
     const [isBtnDisabled, setIsBtnDisabled] = useState(true);
 
     const [showFNameValidText, setShowFNameValidText] = useState(false);
@@ -69,7 +76,9 @@ export default function Register() {
     const [showEmailValidText, setShowEmailValidText] = useState(false);
     const [showPassValidText, setShowPassValidText] = useState(false);
     const [showPhoneValidText, setShowPhoneValidText] = useState(false);
+    const [showGenderValidText, setShowGenderValidText] = useState(false);
     const [showDateValidText, setShowDateValidText] = useState(false);
+    const [gender, setGender] = useState("");
 
     useEffect(() => {
         if (!firstName) {
@@ -84,12 +93,31 @@ export default function Register() {
             setIsBtnDisabled(true);
         } else if (!selectedDate) {
             setIsBtnDisabled(true);
-        } else if (!firstName && !lastName && !phoneNumber && !email && !pass) {
+        } else if (!gender) {
+            setIsBtnDisabled(true);
+        } else if (
+            !firstName &&
+            !lastName &&
+            !phoneNumber &&
+            !email &&
+            !selectedDate &&
+            !gender &&
+            !pass
+        ) {
             setIsBtnDisabled(true);
         } else {
             setIsBtnDisabled(false);
         }
-    }, [firstName, lastName, phoneNumber, email, pass, selectedDate]);
+    }, [firstName, lastName, phoneNumber, email, gender, pass, selectedDate]);
+
+    const handleGenderChange = e => {
+        const gender = e.target.value;
+        setShowGenderValidText(false);
+        setGender(gender);
+        if (gender === "male" || gender === "female") {
+            setIsGenderValid(true);
+        }
+    };
 
     const getFirstName = firstNameValue => {
         setShowFNameValidText(false);
@@ -151,6 +179,7 @@ export default function Register() {
             !isEmailValueValid &&
             !isPhoneValueValid &&
             !isPassValueValid &&
+            !isGenderValid &&
             !selectedDate
         ) {
             setShowFNameValidText(true);
@@ -159,6 +188,7 @@ export default function Register() {
             setShowEmailValidText(true);
             setShowPassValidText(true);
             setShowDateValidText(true);
+            setShowGenderValidText(true);
         } else if (!isFirstNameValid) {
             setShowFNameValidText(true);
         } else if (!isLastNameValid) {
@@ -169,6 +199,8 @@ export default function Register() {
             setShowPhoneValidText(true);
         } else if (!isDateValid) {
             setShowDateValidText(true);
+        } else if (!isGenderValid) {
+            setShowGenderValidText(true);
         } else if (!isPassValueValid) {
             setShowPassValidText(true);
         } else {
@@ -178,6 +210,7 @@ export default function Register() {
                 phoneNumber,
                 email,
                 pass,
+                gender,
                 selectedDate,
             };
             register(data);
@@ -186,14 +219,14 @@ export default function Register() {
             setPhoneNumber("");
             setEmail("");
             setPass("");
+            setGender("");
             setSelectedDate(new Date(moment().format("LL")));
         }
     };
-
     const classes = useStyles();
 
     return (
-        <Container className={classes.wrapper} component="main" maxWidth="xs">
+        <Container className={classes.wrapper} maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
                 <Avatar className={classes.avatar}>
@@ -249,7 +282,7 @@ export default function Register() {
                                 icon={<AlternateEmailIcon />}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sm={6}>
                             <FormItem
                                 inputValue={phoneNumber}
                                 showValidationText={showPhoneValidText}
@@ -264,18 +297,19 @@ export default function Register() {
                                 icon={<PhoneIcon />}
                             />
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item style={{ marginTop: -16 }} xs={12} sm={6}>
                             <MuiPickersUtilsProvider utils={MomentUtils}>
                                 <KeyboardDatePicker
                                     initialFocusedDate={
                                         new Date(moment().format("LL"))
                                     }
                                     disableFuture={true}
-                                    style={{ marginBottom: "1.5rem" }}
+                                    style={{ marginBottom: "1rem" }}
                                     onAccept={onDateValidate}
                                     required={true}
                                     fullWidth
                                     minDate={new Date("1910-01-01")}
+                                    maxDate={new Date()}
                                     id="date-picker-dialog"
                                     label="Birth date"
                                     format="LL"
@@ -286,6 +320,29 @@ export default function Register() {
                                     }}
                                 />
                             </MuiPickersUtilsProvider>
+                            {showDateValidText && (
+                                <FormHelperText>
+                                    {DATE_VALIDATION_TEXT}
+                                </FormHelperText>
+                            )}
+                        </Grid>
+                        <Grid item xs={12}>
+                            <FormControl className={classes.genderFormControl}>
+                                <Select
+                                    value={gender}
+                                    onChange={handleGenderChange}
+                                    displayEmpty
+                                >
+                                    <MenuItem value="">Gender</MenuItem>
+                                    <MenuItem value="male">Male</MenuItem>
+                                    <MenuItem value="female">Female</MenuItem>
+                                </Select>
+                                {showGenderValidText && (
+                                    <FormHelperText>
+                                        {GENDER_VALIDATION_TEXT}
+                                    </FormHelperText>
+                                )}
+                            </FormControl>
                         </Grid>
                         <Grid item xs={12}>
                             <FormItem
@@ -315,7 +372,11 @@ export default function Register() {
                     </Button>
                     <Grid container justify="flex-end">
                         <Grid item>
-                            <Link to="/" variant="body2">
+                            <Link
+                                className={classes.linkBlue}
+                                to="/"
+                                variant="body2"
+                            >
                                 Already have an account? Sign in
                             </Link>
                         </Grid>

@@ -7,11 +7,16 @@ import {
     PASSWORD_VALIDATION_TEXT,
     EMAIL_VALIDATION_TEXT,
 } from "../../services/constants";
+import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import { login } from "../../services/services";
+import Grid from "@material-ui/core/Grid";
+import { connect } from "react-redux";
+import { userLogin } from "../../redux/thunks/index";
 
-export default function Login(props) {
+function Login(props) {
+    const { login } = props;
+
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
     const [isEmailValueValid, setIsEmailValueValid] = useState(false);
@@ -34,15 +39,11 @@ export default function Login(props) {
 
     const getEmailValue = email => {
         setShowEmailValidText(false);
-        console.log("before email", email);
         setEmail(email);
-        console.log("email", email);
     };
     const getPasswordValue = pass => {
         setShowPassValidText(false);
-        console.log("before pass", pass);
         setPass(pass);
-        console.log("pass", pass);
     };
 
     const isEmailValid = v => {
@@ -66,7 +67,6 @@ export default function Login(props) {
                 email,
                 pass,
             };
-            console.log(data);
             login(data);
             setEmail("");
             setPass("");
@@ -78,40 +78,68 @@ export default function Login(props) {
             <div className={classes.loginHeadingWrapper}>
                 <h1>Sign in</h1>
             </div>
-            <FormItem
-                inputValue={email}
-                showValidationText={showEmailValidText}
-                isValueValid={isEmailValid}
-                getInputValue={getEmailValue}
-                validateInputField={validateEmail}
-                validationText={EMAIL_VALIDATION_TEXT}
-                label="Email"
-                placeholder="Email"
-                type="email"
-                required={true}
-                icon={<AccountCircle />}
-            />
-            <FormItem
-                inputValue={pass}
-                showValidationText={showPassValidText}
-                isValueValid={isPassValid}
-                getInputValue={getPasswordValue}
-                validateInputField={validatePassword}
-                validationText={PASSWORD_VALIDATION_TEXT}
-                label="Password"
-                placeholder="Password"
-                type="password"
-                required={true}
-                icon={<LockIcon />}
-            />
+            <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <FormItem
+                        inputValue={email}
+                        showValidationText={showEmailValidText}
+                        isValueValid={isEmailValid}
+                        getInputValue={getEmailValue}
+                        validateInputField={validateEmail}
+                        validationText={EMAIL_VALIDATION_TEXT}
+                        label="Email"
+                        placeholder="Email"
+                        type="email"
+                        required={true}
+                        icon={<AccountCircle />}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormItem
+                        inputValue={pass}
+                        showValidationText={showPassValidText}
+                        isValueValid={isPassValid}
+                        getInputValue={getPasswordValue}
+                        validateInputField={validatePassword}
+                        validationText={PASSWORD_VALIDATION_TEXT}
+                        label="Password"
+                        placeholder="Password"
+                        type="password"
+                        required={true}
+                        icon={<LockIcon />}
+                    />
+                </Grid>
+            </Grid>
             <Button
                 disabled={isBtnDisabled}
                 onClick={onLoginBtnClick}
                 variant="contained"
                 color="primary"
+                fullWidth
             >
                 Sign In
             </Button>
+            <Grid container justify="flex-end" style={{ marginTop: "1rem" }}>
+                <Grid item>
+                    <Link
+                        className={classes.linkBlue}
+                        to="/register"
+                        variant="body2"
+                    >
+                        {"Don't have an account? Sign Up"}
+                    </Link>
+                </Grid>
+            </Grid>
         </div>
     );
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        login: data => {
+            dispatch(userLogin(data));
+        },
+    };
+};
+
+export default connect(null, mapDispatchToProps)(Login);

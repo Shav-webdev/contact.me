@@ -1,9 +1,9 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model } = require("mongoose");
 
 // const { types, status, img } = require('../../utils/constans');
 
 const usersSchema = new Schema({
-    name: {
+    firstName: {
         type: String,
         required: true,
     },
@@ -17,25 +17,26 @@ const usersSchema = new Schema({
         required: true,
         unique: true,
     },
-    age: {
-        type: Number,
-        required: true,
-    },
     password: {
         type: String,
         required: true,
     },
-    phone: {
-        type: Number,
+    phoneNumber: {
+        type: String,
+        required: true,
+    },
+    gender: {
+        type: String,
         required: true,
     },
     approved: {
         type: String,
-        default: 'pending',
+        default: "pending",
     },
     avatar: {
         type: String,
-        default: 'userAvatarUrl',
+        default:
+            "https://res.cloudinary.com/do4elvogx/image/upload/v1585041498/defaultImages/avatar_wivmdv.png",
     },
     createdTime: {
         type: Number,
@@ -43,4 +44,4 @@ const usersSchema = new Schema({
     },
 });
 
-module.exports = model('User', usersSchema);
+module.exports = model("User", usersSchema);
