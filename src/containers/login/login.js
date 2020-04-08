@@ -12,7 +12,7 @@ import LockIcon from "@material-ui/icons/Lock";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
-import { userLogin } from "../../redux/thunks/index";
+import { userLoginThunk } from "../../redux/thunks/index";
 
 function Login(props) {
     const { login } = props;
@@ -137,7 +137,7 @@ function Login(props) {
 const mapDispatchToProps = dispatch => {
     return {
         login: data => {
-            dispatch(userLogin(data));
+            dispatch(userLoginThunk(data));
         },
     };
 };

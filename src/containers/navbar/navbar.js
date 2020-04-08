@@ -17,14 +17,20 @@ import InfoIcon from "@material-ui/icons/Info";
 import ContactsIcon from "@material-ui/icons/Contacts";
 import Drawer from "@material-ui/core/Drawer";
 import { useStyles } from "./navbarMUI";
+import { connect } from "react-redux";
+import { authLogoutThunk } from "../../redux/thunks";
+import StyledButton from "../../components/styledButton/styledButton";
+import Divider from "@material-ui/core/Divider";
 
-export default function NavBar() {
+function NavBar(props) {
+    const { logout } = props;
+    const { isLogin } = props;
     const [open, setOpen] = useState(false);
     const [menuBtnVisible, setMenuBtnVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
     useEffect(() => {
-        if (windowWidth > 690) {
+        if (windowWidth > 764) {
             setMenuBtnVisible(false);
         } else {
             setMenuBtnVisible(true);
@@ -46,12 +52,16 @@ export default function NavBar() {
         setOpen(false);
     };
 
+    const handleLogout = () => {
+        logout();
+    };
+
     const classes = useStyles();
 
     return (
         <>
             <div className={styles.navbarWrapper}>
-                <div>
+                <div className={styles.logoWrapper}>
                     <NavItem href="/">
                         <img
                             className={styles.logo}
@@ -63,10 +73,36 @@ export default function NavBar() {
                 {!menuBtnVisible && (
                     <>
                         <List className={styles.navbar}>
-                            <NavItem href="/">Home</NavItem>
-                            <NavItem href="/about">About</NavItem>
-                            <NavItem href="/contacts">Contacts</NavItem>
+                            {isLogin ? (
+                                <>
+                                    <NavItem href="/">Home</NavItem>
+                                    <NavItem href="/about">About</NavItem>
+                                    <NavItem href="/contacts">Contacts</NavItem>
+                                </>
+                            ) : (
+                                <div style={{ display: "flex", width: "100%" }}>
+                                    <NavItem addStyle="navButton" href="/">
+                                        Login
+                                    </NavItem>
+                                    <NavItem
+                                        addStyle="navButton"
+                                        href="/register"
+                                    >
+                                        Register
+                                    </NavItem>
+                                </div>
+                            )}
                         </List>
+                        {isLogin && (
+                            <div>
+                                <StyledButton
+                                    handleBtnClick={handleLogout}
+                                    btnClassName="navButton"
+                                >
+                                    Logout
+                                </StyledButton>
+                            </div>
+                        )}
                     </>
                 )}
                 {menuBtnVisible && (
@@ -101,27 +137,86 @@ export default function NavBar() {
                         </IconButton>
                     </div>
                     <List>
-                        <ListItem button key={"Home"}>
-                            <ListItemIcon>
-                                <HomeIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={"Home"} />
-                        </ListItem>
-                        <ListItem button key={"About"}>
-                            <ListItemIcon>
-                                <InfoIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={"About"} />
-                        </ListItem>
-                        <ListItem button key={"Contacts"}>
-                            <ListItemIcon>
-                                <ContactsIcon />
-                            </ListItemIcon>
-                            <ListItemText primary={"Contacts"} />
-                        </ListItem>
+                        {isLogin ? (
+                            <>
+                                <ListItem button key={"Home"}>
+                                    <ListItemIcon>
+                                        <HomeIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Home"} />
+                                </ListItem>
+                                <ListItem button key={"About"}>
+                                    <ListItemIcon>
+                                        <InfoIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={"About"} />
+                                </ListItem>
+                                <ListItem button key={"Contacts"}>
+                                    <ListItemIcon>
+                                        <ContactsIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Contacts"} />
+                                </ListItem>
+                                <Divider />
+                                <StyledButton
+                                    handleBtnClick={handleLogout}
+                                    btnClassName="btnAccentBlue"
+                                >
+                                    Logout
+                                </StyledButton>
+                            </>
+                        ) : (
+                            <>
+                                <ListItem
+                                    classes={{
+                                        button: classes.menuListItem,
+                                    }}
+                                    button
+                                    key={"Login"}
+                                >
+                                    <ListItemIcon>
+                                        <InfoIcon />
+                                    </ListItemIcon>
+                                    <NavItem addStyle="sidebarItem" href="/">
+                                        Login
+                                    </NavItem>
+                                </ListItem>
+                                <ListItem
+                                    classes={{
+                                        button: classes.menuListItem,
+                                    }}
+                                    button
+                                    key={"Register"}
+                                >
+                                    <ListItemIcon>
+                                        <ContactsIcon />
+                                    </ListItemIcon>
+                                    <NavItem
+                                        addStyle="sidebarItem"
+                                        href="/register"
+                                    >
+                                        Register
+                                    </NavItem>
+                                </ListItem>
+                            </>
+                        )}
                     </List>
                 </Drawer>
             )}
         </>
     );
 }
+
+const mapStateToProps = state => {
+    const { auth } = state;
+    const { isLogin } = auth;
+    return { isLogin };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        logout: () => dispatch(authLogoutThunk()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

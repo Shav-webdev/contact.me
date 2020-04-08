@@ -4,3 +4,19 @@
     color: #ffffff;
     text-decoration: none;
 }
+.navButton {
+    background-color: #F0F8FF;
+    color: #c7570f;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: .2s;
+}
+
+.navButton:hover {
+    background-color: #c7570f;
+    color: #F0F8FF;
+}
+
+.sidebarItem {
+    color: #ee0341;
+}

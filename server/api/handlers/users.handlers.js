@@ -1,60 +1,31 @@
-const bcrypt = require("bcrypt");
 const User = require("../../models/user.models");
-const saltRounds = 10;
-const { messages } = require("../../services/constants");
+const { selectTypes } = require("../../services/constants");
 
-exports.userLogin = async (req, res) => {
-    console.log("post req body ++++", req.body);
-    res.status(200).send({
-        ...req.body,
-        message: messages.successAuthMessage,
-    });
+module.exports.getAllUsers = async (req, res) => {
+    const users = await User.find({});
+    if (users.length > 0) {
+        res.status(200).send({ users });
+    } else {
+        res.status(404).send({ message: "No users found" });
+    }
 };
 
-exports.userRegister = async (req, res) => {
+module.exports.getUserById = async (req, res) => {
     try {
-        console.log("post req body", req.body);
-
-        const user = await User.findOne({
-            email: req.body.email.toLowerCase(),
-        });
-        if (!user) {
-            bcrypt.hash(req.body.pass, saltRounds, function(err, hash) {
-                console.log("pass hash", hash);
-                if (err) {
-                    return res.status(500).send({
-                        message: messages.errorMessage,
-                    });
-                }
-                const user = new User({
-                    ...req.body,
-                    email: req.body.email.toLowerCase(),
-                    phoneNumber: req.body.phoneNumber,
-                    password: hash,
-                });
-                console.log("user data before", user);
-                user.save((err, user) => {
-                    if (err) {
-                        console.log("err ---", err);
-                        return res.status(500).send({
-                            message: messages.errorMessage,
-                        });
-                    }
-                    console.log("user data after", user);
-                    // sendEmail.sendInfoSignUp(user)
-                    // sendEmail.sendWaitEmailForReceiver(user)
-                    return res.status(201).send({
-                        message: messages.successUserCreated,
-                    });
-                });
-            });
+        console.log("req.params", req.params);
+        const _id = req.params.id;
+        console.log("req.params.id", req.params.id);
+        console.log("userId", _id);
+        const user = await User.findOne({ _id }).select(
+            selectTypes.userGetById
+        );
+        if (user) {
+            console.log("user", user);
+            res.status(200).send({ user });
         } else {
-            res.status(409).send({
-                message: messages.errorAlreadyExists,
-            });
+            res.status(404).send({ message: "No user found" });
         }
     } catch (e) {
-        console.log(e);
-        console.log(e.message);
+        console.log("error", e);
     }
 };

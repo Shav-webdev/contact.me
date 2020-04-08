@@ -1,6 +1,6 @@
 module.exports.config = {
     jwt: {
-        expiresIn: "10h",
+        expiresIn: 3600,
         key: "webDev",
     },
 };

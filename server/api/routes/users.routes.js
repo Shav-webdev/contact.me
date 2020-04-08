@@ -1,10 +1,21 @@
 const { Router } = require("express");
-const router = Router();
-let bodyParser = require("body-parser");
-const jsonParser = bodyParser.json();
-const { userLogin, userRegister } = require("../handlers/users.handlers");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const checkAuthMiddleware = require("../../middlewares/checkAuth.middleware");
 
-router.post("/login", jsonParser, userLogin);
-router.post("/register", jsonParser, userRegister);
+const router = Router();
+const jsonParser = bodyParser.json();
+const { getAllUsers, getUserById } = require("../handlers/users.handlers");
+
+router.get(
+    "/users",
+    passport.authenticate("jwt", { session: false }),
+    getAllUsers
+);
+router.get(
+    "/users/:id",
+    passport.authenticate("jwt", { session: false }),
+    getUserById
+);
 
 module.exports = router;

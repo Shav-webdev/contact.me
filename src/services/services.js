@@ -1,21 +1,12 @@
 import axios from "axios";
 
 export function register(data) {
-    console.log(data);
     axios
         .post("/register", data)
         .then(res => {
-            const data = {
-                showMessage: true,
-                textMessage: res.data.message,
-                variant: "success",
-            };
+            console.log(res);
         })
         .catch(e => {
-            const data = {
-                showMessage: true,
-                textMessage: e.message,
-                variant: "error",
-            };
+            console.log(e);
         });
 }

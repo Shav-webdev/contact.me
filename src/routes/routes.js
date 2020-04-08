@@ -13,8 +13,10 @@ import history from "./history.js";
 import Register from "../containers/register/register";
 import ProfileLayout from "../hoc/layouts/profileLayout";
 import Profile from "../pages/profile/profile";
+import { connect } from "react-redux";
 
-export default function Routes() {
+function Routes(props) {
+    const { isLogin } = props;
     return (
         <>
             <Router history={history}>
@@ -41,29 +43,28 @@ export default function Routes() {
                         layout={ContactsLayout}
                         component={Contacts}
                     />
-                    <AppRoute
-                        path="/profile"
-                        layout={ProfileLayout}
-                        component={Profile}
-                    />
-
+                    {isLogin && (
+                        <AppRoute
+                            path="/profile"
+                            layout={ProfileLayout}
+                            component={Profile}
+                        />
+                    )}
                     <AppRoute
                         path="*"
                         layout={NotFoundLayout}
                         component={PageNotFound}
                     />
-                    {/* <AppRoute
-                        path="/register/company"
-                        layout={registerLayout}
-                        component={RegisterAsCompany}
-                    />
-                    <AppRoute
-                        path="/register/courier"
-                        layout={registerLayout}
-                        component={RegisterAsCourier}
-                    /> */}
                 </Switch>
             </Router>
         </>
     );
 }
+
+const mapStateToProps = state => {
+    const { auth } = state;
+    const { isLogin } = auth;
+    return { isLogin };
+};
+
+export default connect(mapStateToProps, null)(Routes);

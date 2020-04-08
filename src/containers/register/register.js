@@ -211,7 +211,7 @@ export default function Register() {
                 email,
                 pass,
                 gender,
-                selectedDate,
+                birthday: selectedDate,
             };
             register(data);
             setFirstName("");
@@ -326,7 +326,7 @@ export default function Register() {
                                 </FormHelperText>
                             )}
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sm={6}>
                             <FormControl className={classes.genderFormControl}>
                                 <Select
                                     value={gender}
@@ -344,7 +344,7 @@ export default function Register() {
                                 )}
                             </FormControl>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Grid item xs={12} sm={6}>
                             <FormItem
                                 inputValue={pass}
                                 showValidationText={showPassValidText}

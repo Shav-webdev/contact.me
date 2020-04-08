@@ -6,12 +6,12 @@ const axiosInstance = axios.create({
     responseType: "json",
 });
 
-// axiosInstance.interceptors.request.use(config => {
-//     config.headers.Authorization = Storage.get('deliver')
-//         ? Storage.get('deliver').token
-//         : null
-//     return config
-// })
+axiosInstance.interceptors.request.use(config => {
+    const auth = JSON.parse(localStorage.getItem("auth"));
+    config.headers.Authorization =
+        auth && Object.keys(auth).length && auth.token ? auth.token : null;
+    return config;
+});
 
 const Endpoint = EndpointFactory(axiosInstance);
 

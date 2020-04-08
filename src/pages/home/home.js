@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Login from "../../containers/login/login";
 import classes from "./home.module.css";
 import { connect } from "react-redux";
 import AppSpinner from "../../components/spinners/appSpinner/appSpinner";
 import QueryMessage from "../../components/queryMessage/queryMessage";
+import history from "../../routes/history";
+import { autoLogin } from "../../redux/thunks";
 
 function Home(props) {
-    console.log("home props", props);
-    const { showMessage, signing } = props;
+    const {
+        showMessage,
+        signing,
+        isLogin,
+        authMessage,
+        authMessageType,
+    } = props;
+
+    useEffect(() => {
+        autoLogin();
+        if (isLogin) {
+            history.push("/profile");
+        }
+    });
 
     if (signing) {
         return <AppSpinner />;
@@ -26,18 +40,32 @@ function Home(props) {
                 </div>
                 <Login />
             </div>
-            {showMessage && <QueryMessage />}
+            {showMessage && (
+                <QueryMessage
+                    variant={authMessageType}
+                    showMessage={showMessage}
+                    textMessage={authMessage}
+                />
+            )}
         </>
     );
 }
 
 const mapStateToProps = state => {
     const { auth } = state;
-    const { signing, showMessage, currentUserData } = auth;
+    const {
+        signing,
+        showMessage,
+        isLogin,
+        authMessage,
+        authMessageType,
+    } = auth;
     return {
-        currentUserData,
         showMessage,
         signing,
+        isLogin,
+        authMessage,
+        authMessageType,
     };
 };
 

@@ -3,6 +3,8 @@ module.exports = {
         admin: "admin",
         user: "user",
         company: "company",
+        geoModel: "Point",
+        validationError: "ValidationError",
     },
     status: {
         pending: "pending",
@@ -27,6 +29,27 @@ module.exports = {
         updateOrderList: "update_order_list",
         deletedOrder: "deleted_order",
         userTookOrder: "user_took_order",
+    },
+    validation: {
+        nameMinLength: "Name must be at least 2 characters.",
+        nameMaxLength: "Name must be less than 20 characters.",
+        nameRequired: "Name field is required!",
+        nameRegexp: "Name field is not valid!",
+        lastNameMinLength: "Last name must be at least 2 characters.",
+        lastNameMaxLength: "Last name must be less than 20 characters.",
+        lastNameRequired: "Last name field is required!",
+        lastNameRegexp: "Last name field is not valid!",
+        birthdayMin: "Last date is not valid!",
+        birthdayMax: "Future date is not valid!",
+        birthdayRequired: "Birthday field is required!",
+        passwordMinLength: "Password must be at least 2 characters.",
+        passwordMaxLength: "Password must be less than 64 characters.",
+        passwordRegexp: "Password field is not valid!",
+        passwordRequired: "Password field is required!",
+        emailRegexp: "Email field is not valid!",
+        phoneNumberRequired: "Phone field is required!",
+        phoneNumberRegexp: "Phone number is not valid !",
+        genderRequired: "Gender field is required!",
     },
     messages: {
         errorMessage: "Something went wrong, try later",
@@ -54,5 +77,15 @@ module.exports = {
         successAuthMessage: "Auth successful",
         successUserDeleted: "User has been deleted",
         successUserCreated: "User successfully created",
+    },
+    selectTypes: {
+        userGetAll:
+            "firstName lastName email phoneNumber approved avatar createdTime",
+        userGetById:
+            "firstName lastName email phoneNumber role approved avatar",
+        companyGetAll:
+            "name email phoneNumber taxNumber address activity approved avatar amount createdTime",
+        companyGetById:
+            "name email phoneNumber taxNumber address activity approved avatar amount",
     },
 };

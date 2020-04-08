@@ -1,37 +1,106 @@
 const { Schema, model } = require("mongoose");
+const { validation } = require("../services/constants");
 
-// const { types, status, img } = require('../../utils/constans');
+const {
+    nameMaxLength,
+    nameMinLength,
+    nameRegexp,
+    nameRequired,
+    lastNameMaxLength,
+    lastNameMinLength,
+    lastNameRegexp,
+    lastNameRequired,
+    birthdayMax,
+    birthdayMin,
+    birthdayRequired,
+    passwordMinLength,
+    passwordMaxLength,
+    passwordRequired,
+    emailRegexp,
+    phoneNumberRegexp,
+    phoneNumberRequired,
+    genderRequired,
+} = validation;
 
 const usersSchema = new Schema({
     firstName: {
         type: String,
-        required: true,
+        minlength: [2, nameMinLength],
+        maxlength: [20, nameMaxLength],
+        trim: true,
+        validate: {
+            validator: function(v) {
+                const re = new RegExp(/^([a-zA-Z]{2,20})$/);
+                return re.test(v);
+            },
+            message: nameRegexp,
+        },
+        required: [true, nameRequired],
     },
     lastName: {
         type: String,
-        required: true,
+        minlength: [2, lastNameMinLength],
+        maxlength: [20, lastNameMaxLength],
+        trim: true,
+        validate: {
+            validator: function(v) {
+                const re = new RegExp(/^([a-zA-Z]{2,20})$/);
+                return re.test(v);
+            },
+            message: lastNameRegexp,
+        },
+        required: [true, lastNameRequired],
+    },
+    birthday: {
+        type: Date,
+        min: ["1920-01-01", birthdayMin],
+        max: [new Date(), birthdayMax],
+        required: [true, birthdayRequired],
     },
     email: {
         type: String,
-        match: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+        trim: true,
         required: true,
         unique: true,
+        validate: {
+            validator: function(email) {
+                // eslint-disable-next-line no-useless-escape
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(String(email).toLowerCase());
+            },
+            message: emailRegexp,
+        },
     },
     password: {
         type: String,
-        required: true,
+        minlength: [8, passwordMinLength],
+        maxlength: [64, passwordMaxLength],
+        trim: true,
+        required: [true, passwordRequired],
     },
     phoneNumber: {
         type: String,
-        required: true,
+        validate: {
+            validator: function(v) {
+                return /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{3})$/.test(
+                    v
+                );
+            },
+            message: phoneNumberRegexp,
+        },
+        required: [true, phoneNumberRequired],
     },
     gender: {
         type: String,
-        required: true,
+        required: [true, genderRequired],
     },
     approved: {
         type: String,
         default: "pending",
+    },
+    role: {
+        type: String,
+        default: "user",
     },
     avatar: {
         type: String,

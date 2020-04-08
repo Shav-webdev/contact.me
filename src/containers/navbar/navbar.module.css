@@ -1,14 +1,19 @@
 .navbarWrapper {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    padding: 0 5rem;
     width: 100%;
 }
 
 .navbar {
     display: flex;
-    width: 100%;
     justify-content: space-evenly;
     flex-wrap: wrap;
+}
+
+.logoWrapper {
+    display: flex;
+    align-items: center;
 }
 
 .logo {
@@ -25,4 +30,33 @@
 .menu_btn {
     position: absolute !important;
     right: 50px;
+}
+
+.navItemsWrapper {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+@media screen and (min-width: 850px) {
+    .navbar > li {
+        margin: 0 .5rem;
+    }
+}
+@media screen and (min-width: 950px) {
+    .navbar > li {
+        margin: 0 1rem;
+    }
+}
+
+@media screen and (min-width: 1250px) {
+    .navbar > li {
+        margin: 0 1.5rem;
+    }
+}
+@media screen and (min-width: 1450px) {
+    .navbar > li {
+        margin: 0 2rem;
+    }
 }

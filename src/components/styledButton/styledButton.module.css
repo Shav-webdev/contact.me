@@ -9,6 +9,29 @@
     transition: 0.3s;
 }
 
+.btnAccentBlue {
+    background-color: rgba(61, 116, 219, 0.781);
+    color:  #fff;
+}
+
+.btnAccentBlue:hover {
+    background-color: #c7570f;
+    color: #fff;
+}
+
+.navButton {
+    background-color: #F0F8FF;
+    color: #c7570f;
+    padding: 10px 15px;
+    border-radius: 4px;
+    transition: .2s;
+}
+
+.navButton:hover {
+    background-color: #c7570f;
+    color: #F0F8FF;
+}
+
 .btn {
     display: inline-block;
     font-weight: 400;
