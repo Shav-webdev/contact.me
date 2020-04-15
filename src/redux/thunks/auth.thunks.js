@@ -1,4 +1,5 @@
 import api from "../../services/axiosEndpoints";
+import { queryMessages, messageType } from "../../services/constants";
 import {
     signOutRequest,
     signOutSuccess,
@@ -9,13 +10,52 @@ import {
     authFailureMessage,
     hideAuthMessage,
     signInSuccess,
+    signUpRequest,
+    signUpFailure,
+    signUpMessage,
 } from "../actions";
 import history from "../../routes/history";
+
+const { login, register } = api;
+const { userCreated } = queryMessages;
+const { errType, successType } = messageType;
+
+export const userRegisterThunk = data => async dispatch => {
+    try {
+        dispatch(signUpRequest());
+        const response = await register.post(data);
+        if (response.status !== 201) {
+            throw new Error(response.data.message);
+        }
+        dispatch(
+            signUpMessage({
+                msg: userCreated,
+                messageType: successType,
+            })
+        );
+        setTimeout(() => {
+            dispatch(signUpFailure());
+            history.push("/");
+        }, 4000);
+    } catch (error) {
+        console.log("error in catch", error);
+        dispatch(signUpFailure());
+        if (error.response && error.response.data) {
+            console.log(error.response);
+            dispatch(
+                signUpMessage({
+                    msg: error.response.data.message,
+                    messageType: errType,
+                })
+            );
+        }
+    }
+};
 
 export const userLoginThunk = data => async dispatch => {
     try {
         dispatch(authRequest());
-        const response = await api.login.post(data);
+        const response = await login.post(data);
         if (response.status !== 200) {
             throw new Error(response.data.message);
         }
@@ -33,7 +73,6 @@ export const userLoginThunk = data => async dispatch => {
             ...responseAuth,
             expiresIn,
         };
-
         localStorage.setItem("auth", JSON.stringify(authLS));
         dispatch(authSuccess(responseAuth.token));
         dispatch(signInSuccess(response.data.auth));
@@ -41,8 +80,9 @@ export const userLoginThunk = data => async dispatch => {
         setTimeout(() => dispatch(hideAuthMessage()), 4000);
     } catch (error) {
         console.log("error in catch", error);
+        console.log("error in catch", error.response);
         dispatch(authFailure());
-        if (error.response) {
+        if (error.response && error.response.data.message) {
             console.log(error.response);
             dispatch(
                 authFailureMessage({
@@ -51,25 +91,43 @@ export const userLoginThunk = data => async dispatch => {
                 })
             );
             setTimeout(() => dispatch(hideAuthMessage()), 4000);
+        } else if (error.message) {
+            dispatch(
+                authFailureMessage({
+                    msg: error.message,
+                    authMessageType: "error",
+                })
+            );
+            setTimeout(() => dispatch(hideAuthMessage()), 4000);
+        } else {
+            dispatch(
+                authFailureMessage({
+                    msg: queryMessages.errorWentWrong,
+                    authMessageType: "error",
+                })
+            );
+            setTimeout(() => dispatch(hideAuthMessage()), 4000);
         }
     }
 };
 
-export const autoLogin = () => dispatch => {
+export const autoLoginThunk = () => dispatch => {
     try {
         const auth = JSON.parse(localStorage.getItem("auth"));
-        console.log(auth);
-        if (!auth.token) {
-            dispatch(authLogoutThunk());
-        } else {
-            const expirationDate = new Date(auth.expiresIn).getTime();
-            if (expirationDate <= new Date().getTime()) {
-                dispatch(authLogoutThunk());
+        if (auth) {
+            if (!auth.token) {
+                authLogoutThunk();
             } else {
-                authSuccess(auth.token);
-                autoLogOutThunk(
-                    expirationDate.getTime() - new Date().getTime() / 1000
-                );
+                const expirationDate = new Date(auth.expiresIn).getTime();
+                if (expirationDate <= new Date().getTime()) {
+                    authLogoutThunk();
+                } else {
+                    dispatch(authSuccess(auth.token));
+                    dispatch(signInSuccess(auth));
+                    autoLogOutThunk(
+                        expirationDate - new Date().getTime() / 1000
+                    );
+                }
             }
         }
     } catch (e) {

@@ -1,7 +1,7 @@
 .navbarWrapper {
     display: flex;
     justify-content: space-between;
-    padding: 0 5rem;
+    padding: 0 1rem;
     width: 100%;
 }
 
@@ -39,9 +39,23 @@
 }
 
 
+@media screen and (min-width: 450px) {
+    .navbarWrapper {
+        padding: 0 3rem;
+    }
+}
+@media screen and (min-width: 650px) {
+    .navbarWrapper {
+        padding: 0 4rem;
+    }
+}
+
 @media screen and (min-width: 850px) {
     .navbar > li {
         margin: 0 .5rem;
+    }
+    .navbarWrapper {
+        padding: 0 5rem;
     }
 }
 @media screen and (min-width: 950px) {

@@ -6,6 +6,8 @@ const useStyles = makeStyles({
         width: 150,
         height: 150,
         borderRadius: "50%",
+        overflow: "hidden",
+        marginBottom: "1.5rem",
     },
     img: {
         width: "100%",

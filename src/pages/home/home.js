@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import AppSpinner from "../../components/spinners/appSpinner/appSpinner";
 import QueryMessage from "../../components/queryMessage/queryMessage";
 import history from "../../routes/history";
-import { autoLogin } from "../../redux/thunks";
+import { autoLoginThunk } from "../../redux/thunks";
 
 function Home(props) {
     const {
@@ -14,6 +14,7 @@ function Home(props) {
         isLogin,
         authMessage,
         authMessageType,
+        autoLogin,
     } = props;
 
     useEffect(() => {
@@ -40,7 +41,7 @@ function Home(props) {
                 </div>
                 <Login />
             </div>
-            {showMessage && (
+            {showMessage && authMessage && (
                 <QueryMessage
                     variant={authMessageType}
                     showMessage={showMessage}
@@ -69,4 +70,10 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, null)(Home);
+const mapDispatchToProps = dispatch => {
+    return {
+        autoLogin: () => dispatch(autoLoginThunk()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

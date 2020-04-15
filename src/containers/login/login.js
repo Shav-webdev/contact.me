@@ -3,16 +3,15 @@ import classes from "./login.module.css";
 import FormItem from "../../components/formItem/formItem";
 import { validateEmail, validatePassword } from "../../services/validations";
 import { Button } from "@material-ui/core";
-import {
-    PASSWORD_VALIDATION_TEXT,
-    EMAIL_VALIDATION_TEXT,
-} from "../../services/constants";
+import { validationMessages } from "../../services/constants";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import Grid from "@material-ui/core/Grid";
 import { connect } from "react-redux";
 import { userLoginThunk } from "../../redux/thunks/index";
+
+const { emailText, passText } = validationMessages;
 
 function Login(props) {
     const { login } = props;
@@ -86,7 +85,7 @@ function Login(props) {
                         isValueValid={isEmailValid}
                         getInputValue={getEmailValue}
                         validateInputField={validateEmail}
-                        validationText={EMAIL_VALIDATION_TEXT}
+                        validationText={emailText}
                         label="Email"
                         placeholder="Email"
                         type="email"
@@ -101,7 +100,7 @@ function Login(props) {
                         isValueValid={isPassValid}
                         getInputValue={getPasswordValue}
                         validateInputField={validatePassword}
-                        validationText={PASSWORD_VALIDATION_TEXT}
+                        validationText={passText}
                         label="Password"
                         placeholder="Password"
                         type="password"

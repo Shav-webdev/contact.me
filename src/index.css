@@ -24,3 +24,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.dropzone {
+  border: 2px dashed #8729cec4;
+  padding: 10px 20px 15px;
+  background-color: #fff4f4;
+}
+
+.dropzone:hover {
+  cursor: grabbing;
+}

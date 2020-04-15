@@ -1,10 +1,22 @@
 import React, { useEffect } from "react";
 import QueryMessage from "../../components/queryMessage/queryMessage";
 import { connect } from "react-redux";
-import { getUserThunk } from "../../redux/thunks";
+import { autoLoginThunk, getUserThunk } from "../../redux/thunks";
 
 function Profile(props) {
-    const { showMessage, authMessage, authMessageType, getUserById } = props;
+    const {
+        showMessage,
+        authMessage,
+        authMessageType,
+        getUserById,
+        autoLogin,
+        isLogin,
+    } = props;
+
+    useEffect(() => {
+        autoLogin();
+        // eslint-disable-next-line
+    }, [isLogin]);
 
     useEffect(() => {
         const userId = JSON.parse(localStorage.getItem("auth")).userId;
@@ -14,7 +26,7 @@ function Profile(props) {
 
     return (
         <>
-            {showMessage && (
+            {showMessage && authMessage && (
                 <QueryMessage
                     variant={authMessageType}
                     showMessage={showMessage}
@@ -27,17 +39,19 @@ function Profile(props) {
 
 const mapStateToProps = state => {
     const { auth } = state;
-    const { showMessage, authMessage, authMessageType } = auth;
+    const { showMessage, authMessage, authMessageType, isLogin } = auth;
     return {
         showMessage,
         authMessage,
         authMessageType,
+        isLogin,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getUserById: id => dispatch(getUserThunk(id)),
+        autoLogin: () => dispatch(autoLoginThunk()),
     };
 };
 

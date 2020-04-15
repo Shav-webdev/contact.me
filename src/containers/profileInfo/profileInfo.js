@@ -2,6 +2,7 @@ import React from "react";
 import classes from "./profileInfo.module.css";
 import ProfileAvatar from "../../components/avatar/profileAvatar";
 import { connect } from "react-redux";
+import ImageUpload from "../imageUpload/imageUpload";
 
 function ProfileInfo(props) {
     const { users } = props;
@@ -11,6 +12,7 @@ function ProfileInfo(props) {
         <div className={classes.wrapper}>
             <div className={classes.avatarSection}>
                 <ProfileAvatar url={avatar} alt={`${firstName} avatar`} />
+                <ImageUpload />
             </div>
             <div className={classes.infoWrapper}>
                 <p>

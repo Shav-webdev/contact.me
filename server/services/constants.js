@@ -51,6 +51,9 @@ module.exports = {
         phoneNumberRegexp: "Phone number is not valid !",
         genderRequired: "Gender field is required!",
     },
+    emails: {
+        accountCreated: "Account successfully created!",
+    },
     messages: {
         errorMessage: "Something went wrong, try later",
         errorAuthFailed: "Auth failed: email or password is incorrect",

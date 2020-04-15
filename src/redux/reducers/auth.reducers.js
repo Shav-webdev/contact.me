@@ -11,6 +11,9 @@ import {
     AUTH_SUCCESS_MESSAGE,
     AUTH_FAILURE_MESSAGE,
     HIDE_AUTH_MESSAGE,
+    SIGN_UP_REQUEST,
+    SIGN_UP_FAILURE,
+    SIGN_UP_MESSAGE,
 } from "../actions/constants";
 
 const initialState = {
@@ -39,6 +42,24 @@ export default function authReducer(state = initialState, action) {
                 showMessage: true,
             };
         case SIGN_IN_FAILURE:
+            return {
+                ...state,
+                signing: false,
+                showMessage: false,
+            };
+        case SIGN_UP_REQUEST:
+            return {
+                ...state,
+                signing: true,
+            };
+        case SIGN_UP_MESSAGE:
+            return {
+                ...state,
+                showMessage: true,
+                authMessage: action.payload.msg,
+                authMessageType: action.payload.messageType,
+            };
+        case SIGN_UP_FAILURE:
             return {
                 ...state,
                 signing: false,
@@ -87,6 +108,7 @@ export default function authReducer(state = initialState, action) {
             return {
                 ...state,
                 signOuting: true,
+                showMessage: false,
             };
         case SIGN_OUT_SUCCESS:
             return {

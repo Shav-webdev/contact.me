@@ -2,6 +2,8 @@ import {
     SIGN_IN_REQUEST,
     SIGN_IN_SUCCESS,
     SIGN_IN_FAILURE,
+    SIGN_UP_REQUEST,
+    SIGN_UP_FAILURE,
     SIGN_OUT_REQUEST,
     SIGN_OUT_SUCCESS,
     SIGN_OUT_FAILURE,
@@ -11,6 +13,7 @@ import {
     AUTH_SUCCESS_MESSAGE,
     AUTH_FAILURE_MESSAGE,
     HIDE_AUTH_MESSAGE,
+    SIGN_UP_MESSAGE,
 } from "./constants";
 
 export const signInRequest = () => ({
@@ -22,6 +25,16 @@ export const signInSuccess = data => ({
 });
 export const signInFailure = () => ({
     type: SIGN_IN_FAILURE,
+});
+export const signUpRequest = () => ({
+    type: SIGN_UP_REQUEST,
+});
+export const signUpMessage = data => ({
+    type: SIGN_UP_MESSAGE,
+    payload: data,
+});
+export const signUpFailure = () => ({
+    type: SIGN_UP_FAILURE,
 });
 
 export const authRequest = () => ({

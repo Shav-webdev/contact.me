@@ -5,7 +5,11 @@ const checkAuthMiddleware = require("../../middlewares/checkAuth.middleware");
 
 const router = Router();
 const jsonParser = bodyParser.json();
-const { getAllUsers, getUserById } = require("../handlers/users.handlers");
+const {
+    getAllUsers,
+    getUserById,
+    updateUserData,
+} = require("../handlers/users.handlers");
 
 router.get(
     "/users",
@@ -16,6 +20,12 @@ router.get(
     "/users/:id",
     passport.authenticate("jwt", { session: false }),
     getUserById
+);
+router.put(
+    "/users/:id",
+    passport.authenticate("jwt", { session: false }),
+    jsonParser,
+    updateUserData
 );
 
 module.exports = router;

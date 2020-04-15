@@ -1,9 +1,21 @@
-export const PASSWORD_VALIDATION_TEXT =
-    "Password should contain at least 8 characters, one digit, one lower, one upper case";
-export const EMAIL_VALIDATION_TEXT = "The input is not valid E-mail!";
-export const FIRST_NAME_VALIDATION_TEXT = "The input is not valid!";
-export const LAST_NAME_VALIDATION_TEXT = "The input is not valid!";
-export const DATE_VALIDATION_TEXT = "Please select a date!";
-export const GENDER_VALIDATION_TEXT = "Gender not selected!";
-export const PHONE_NUMBER_VALIDATION_TEXT =
-    'Phone number should contain only 9 digit either ( e.g "123456789" or "123-456-789")';
+export const queryMessages = {
+    userCreated: "Account created, please login to continue",
+    errorWentWrong: "Something went wrong",
+};
+
+export const messageType = {
+    errType: "error",
+    successType: "success",
+};
+
+export const validationMessages = {
+    passText:
+        "Password should contain at least 8 characters, one digit, one lower, one upper case",
+    emailText: "The input is not valid E-mail!",
+    firstNameText: "The input is not valid!",
+    lastNameText: "The input is not valid!",
+    dateText: "Please select a date!",
+    genderText: "Gender not selected!",
+    phoneText:
+        'Phone number should contain only 9 digit either ( e.g "123456789" or "123-456-789")',
+};

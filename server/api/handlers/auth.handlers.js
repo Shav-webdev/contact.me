@@ -2,8 +2,18 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/user.models");
 const { config } = require("../../utils/config");
-const saltRounds = 10;
 const { messages, types } = require("../../services/constants");
+const nodemailer = require("nodemailer");
+const sendGrid = require("nodemailer-sendgrid-transport");
+const { registerEmail } = require("../../emails/email.register");
+
+const transporter = nodemailer.createTransport(
+    sendGrid({
+        auth: { api_key: config.emailSendGridAPI },
+    })
+);
+
+const saltRounds = 10;
 const { validationError } = types;
 const {
     errorMessage,
@@ -65,26 +75,36 @@ exports.authLogin = async (req, res) => {
 
 exports.authRegister = async (req, res) => {
     try {
-        console.log("post req body", req.body);
+        const {
+            firstName,
+            lastName,
+            phoneNumber,
+            email,
+            pass,
+            gender,
+            birthday,
+        } = req.body;
 
         const user = await User.findOne({
-            email: req.body.email.toLowerCase(),
+            email: email.toLowerCase(),
         });
         if (!user) {
-            bcrypt.hash(req.body.pass, saltRounds, function(err, hash) {
+            bcrypt.hash(pass, saltRounds, async function(err, hash) {
                 if (err) {
                     return res.status(500).send({
                         message: errorMessage,
                     });
                 }
                 const user = new User({
-                    ...req.body,
-                    email: req.body.email.toLowerCase(),
-                    phoneNumber: req.body.phoneNumber,
+                    firstName,
+                    lastName,
+                    gender,
+                    birthday,
+                    email: email.toLowerCase(),
+                    phoneNumber,
                     password: hash,
                 });
-                console.log("user data before", user);
-                user.save((err, user) => {
+                await user.save(async (err, user) => {
                     if (err) {
                         console.log("err.message", err.message);
                         console.log("err", err);
@@ -97,12 +117,15 @@ exports.authRegister = async (req, res) => {
                             message: errorMessage,
                         });
                     }
-                    console.log("user data after", user);
                     // sendEmail.sendInfoSignUp(user)
                     // sendEmail.sendWaitEmailForReceiver(user)
-                    return res.status(201).send({
+
+                    res.status(201).send({
                         message: successUserCreated,
                     });
+                    await transporter.sendMail(
+                        registerEmail(user.email, user.firstName)
+                    );
                 });
             });
         } else {

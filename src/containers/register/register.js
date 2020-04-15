@@ -24,22 +24,27 @@ import {
     validatePassword,
     validatePhoneNumber,
 } from "../../services/validations";
-import {
-    DATE_VALIDATION_TEXT,
-    EMAIL_VALIDATION_TEXT,
-    FIRST_NAME_VALIDATION_TEXT,
-    LAST_NAME_VALIDATION_TEXT,
-    PASSWORD_VALIDATION_TEXT,
-    PHONE_NUMBER_VALIDATION_TEXT,
-    GENDER_VALIDATION_TEXT,
-} from "../../services/constants";
+import { validationMessages } from "../../services/constants";
 import LockIcon from "@material-ui/icons/Lock";
 import moment from "moment";
-import { register } from "../../services/services";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
+import history from "../../routes/history";
+import { connect } from "react-redux";
+import { autoLoginThunk, userRegisterThunk } from "../../redux/thunks";
+import QueryMessage from "../../components/queryMessage/queryMessage";
+
+const {
+    passText,
+    emailText,
+    firstNameText,
+    lastNameText,
+    dateText,
+    genderText,
+    phoneText,
+} = validationMessages;
 
 function Copyright() {
     const classes = useStyles();
@@ -55,7 +60,16 @@ function Copyright() {
     );
 }
 
-export default function Register() {
+function Register(props) {
+    const {
+        showMessage,
+        isLogin,
+        authMessage,
+        authMessageType,
+        autoLogin,
+        register,
+    } = props;
+
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [pass, setPass] = useState("");
@@ -79,6 +93,14 @@ export default function Register() {
     const [showGenderValidText, setShowGenderValidText] = useState(false);
     const [showDateValidText, setShowDateValidText] = useState(false);
     const [gender, setGender] = useState("");
+
+    useEffect(() => {
+        autoLogin();
+        if (isLogin) {
+            history.push("/profile");
+        }
+        // eslint-disable-next-line
+    }, []);
 
     useEffect(() => {
         if (!firstName) {
@@ -244,7 +266,7 @@ export default function Register() {
                                 isValueValid={isFNameValid}
                                 getInputValue={getFirstName}
                                 validateInputField={validateName}
-                                validationText={FIRST_NAME_VALIDATION_TEXT}
+                                validationText={firstNameText}
                                 label="firstName"
                                 placeholder="First name"
                                 type="text"
@@ -259,7 +281,7 @@ export default function Register() {
                                 isValueValid={isLNameValid}
                                 getInputValue={getLastName}
                                 validateInputField={validateName}
-                                validationText={LAST_NAME_VALIDATION_TEXT}
+                                validationText={lastNameText}
                                 label="lastName"
                                 placeholder="Last name"
                                 type="text"
@@ -274,7 +296,7 @@ export default function Register() {
                                 isValueValid={isEmailValid}
                                 getInputValue={getEmail}
                                 validateInputField={validateEmail}
-                                validationText={EMAIL_VALIDATION_TEXT}
+                                validationText={emailText}
                                 label="email"
                                 placeholder="Email Address"
                                 type="email"
@@ -289,7 +311,7 @@ export default function Register() {
                                 isValueValid={isPhoneValid}
                                 getInputValue={getPhoneNumber}
                                 validateInputField={validatePhoneNumber}
-                                validationText={PHONE_NUMBER_VALIDATION_TEXT}
+                                validationText={phoneText}
                                 label="phone"
                                 placeholder="Phone number"
                                 type="text"
@@ -321,9 +343,7 @@ export default function Register() {
                                 />
                             </MuiPickersUtilsProvider>
                             {showDateValidText && (
-                                <FormHelperText>
-                                    {DATE_VALIDATION_TEXT}
-                                </FormHelperText>
+                                <FormHelperText>{dateText}</FormHelperText>
                             )}
                         </Grid>
                         <Grid item xs={12} sm={6}>
@@ -339,7 +359,7 @@ export default function Register() {
                                 </Select>
                                 {showGenderValidText && (
                                     <FormHelperText>
-                                        {GENDER_VALIDATION_TEXT}
+                                        {genderText}
                                     </FormHelperText>
                                 )}
                             </FormControl>
@@ -351,7 +371,7 @@ export default function Register() {
                                 isValueValid={isPassValid}
                                 getInputValue={getPassword}
                                 validateInputField={validatePassword}
-                                validationText={PASSWORD_VALIDATION_TEXT}
+                                validationText={passText}
                                 label="Password"
                                 placeholder="Password"
                                 type="password"
@@ -386,6 +406,33 @@ export default function Register() {
             <Box mt={5}>
                 <Copyright />
             </Box>
+            {showMessage && authMessage && (
+                <QueryMessage
+                    variant={authMessageType}
+                    showMessage={showMessage}
+                    textMessage={authMessage}
+                />
+            )}
         </Container>
     );
 }
+
+const mapStateToProps = state => {
+    const { auth } = state;
+    const { showMessage, isLogin, authMessage, authMessageType } = auth;
+    return {
+        showMessage,
+        isLogin,
+        authMessage,
+        authMessageType,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        autoLogin: () => dispatch(autoLoginThunk()),
+        register: data => dispatch(userRegisterThunk(data)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
