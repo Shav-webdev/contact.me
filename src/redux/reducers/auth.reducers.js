@@ -21,8 +21,8 @@ const initialState = {
     showMessage: false,
     token: "",
     isLogin: false,
-    authMessage: "",
     authData: {},
+    authMessage: "",
     authMessageType: null,
     signOuting: false,
 };

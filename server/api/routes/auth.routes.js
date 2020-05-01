@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = Router();
-let bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 const jsonParser = bodyParser.json();
 const { authLogin, authRegister } = require("../handlers/auth.handlers");
 

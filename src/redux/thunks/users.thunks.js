@@ -6,8 +6,14 @@ import {
     uploadAvatarRequest,
     uploadAvatarSuccess,
     uploadAvatarFailure,
-} from "../actions/users.actions";
+    showRequestMessage,
+    hideAuthMessage,
+    authFailure,
+    authFailureMessage,
+    hideRequestMessage,
+} from "../actions";
 import config from "../../services/config";
+import { queryMessages } from "../../services/constants";
 const { CLOUDINARY_UPLOAD_AVATAR_PRESET } = config;
 
 export const getUserThunk = id => async dispatch => {
@@ -40,10 +46,44 @@ export const uploadUserAvatarThunk = (id, file) => async dispatch => {
                     throw new Error(response.data.message);
                 }
                 dispatch(uploadAvatarSuccess(res.data.avatar));
+                dispatch(
+                    showRequestMessage({
+                        msg: res.data.message,
+                        msgType: "success",
+                    })
+                );
+                setTimeout(() => dispatch(hideRequestMessage()), 4000);
             }
         }
-    } catch (e) {
-        console.log("catch err", e);
-        console.log("catch err", e.message);
+    } catch (error) {
+        console.log("catch err", error);
+        console.log("catch err", error.message);
+        dispatch(uploadAvatarFailure());
+        if (error.response && error.response.data.message) {
+            console.log(error.response);
+            dispatch(
+                showRequestMessage({
+                    msg: error.response.data.message,
+                    msgType: "error",
+                })
+            );
+            setTimeout(() => dispatch(hideAuthMessage()), 4000);
+        } else if (error.message) {
+            dispatch(
+                showRequestMessage({
+                    msg: error.message,
+                    msgType: "error",
+                })
+            );
+            setTimeout(() => dispatch(hideRequestMessage()), 4000);
+        } else {
+            dispatch(
+                showRequestMessage({
+                    msg: queryMessages.errorWentWrong,
+                    msgType: "error",
+                })
+            );
+            setTimeout(() => dispatch(hideRequestMessage()), 4000);
+        }
     }
 };

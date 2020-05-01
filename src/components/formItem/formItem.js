@@ -15,11 +15,13 @@ export default function FormItem({
     showValidationText,
     inputValue,
 }) {
-    const handleInputChange = useCallback(e => {
-        let value = e.target.value;
-        getInputValue(value);
-        // eslint-disable-next-line
-    }, []);
+    const handleInputChange = useCallback(
+        e => {
+            const value = e.target.value;
+            getInputValue(value);
+        },
+        [getInputValue]
+    );
 
     const onHandleInputValidate = () => {
         if (!validateInputField(inputValue)) {

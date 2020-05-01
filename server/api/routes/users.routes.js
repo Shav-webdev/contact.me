@@ -1,7 +1,6 @@
 const { Router } = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
-const checkAuthMiddleware = require("../../middlewares/checkAuth.middleware");
 
 const router = Router();
 const jsonParser = bodyParser.json();

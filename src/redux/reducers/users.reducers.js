@@ -5,12 +5,17 @@ import {
     UPLOAD_AVATAR_REQUEST,
     UPLOAD_AVATAR_SUCCESS,
     UPLOAD_AVATAR_FAILURE,
+    HIDE_REQUEST_MESSAGE,
+    SHOW_REQUEST_MESSAGE,
 } from "../actions/constants";
 
 const initialState = {
     gettingUser: false,
     userData: {},
     uploadingAvatar: false,
+    requestMessage: "",
+    msgType: null,
+    showReqMessage: false,
 };
 
 export default function usersReducer(state = initialState, action) {
@@ -46,6 +51,20 @@ export default function usersReducer(state = initialState, action) {
             return {
                 ...state,
                 gettingUser: false,
+            };
+        case SHOW_REQUEST_MESSAGE:
+            return {
+                ...state,
+                showReqMessage: true,
+                requestMessage: action.payload.msg,
+                msgType: action.payload.msgType,
+            };
+        case HIDE_REQUEST_MESSAGE:
+            return {
+                ...state,
+                showReqMessage: false,
+                requestMessage: "",
+                msgType: null,
             };
         default:
             return state;

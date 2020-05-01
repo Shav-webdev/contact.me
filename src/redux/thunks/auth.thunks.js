@@ -79,8 +79,6 @@ export const userLoginThunk = data => async dispatch => {
         dispatch(autoLogOutThunk(responseAuth.expiresIn));
         setTimeout(() => dispatch(hideAuthMessage()), 4000);
     } catch (error) {
-        console.log("error in catch", error);
-        console.log("error in catch", error.response);
         dispatch(authFailure());
         if (error.response && error.response.data.message) {
             console.log(error.response);

@@ -11,6 +11,10 @@ const axiosImageInstance = axios.create({
     baseURL: config.CLOUDINARY_URL,
 });
 
+const axiosWeatherInstance = axios.create({
+    baseURL: config.CLOUDINARY_URL,
+});
+
 axiosInstance.interceptors.request.use(config => {
     const auth = JSON.parse(localStorage.getItem("auth"));
     config.headers.Authorization =
@@ -20,6 +24,7 @@ axiosInstance.interceptors.request.use(config => {
 
 const Endpoint = EndpointFactory(axiosInstance);
 const ImageEndpoint = EndpointFactory(axiosImageInstance);
+const WeatherEndpoint = EndpointFactory(axiosWeatherInstance);
 
 export default {
     login: new Endpoint("login"),
@@ -27,5 +32,8 @@ export default {
     loginAdmin: new Endpoint("admin"),
     getUserById: id => new Endpoint("users/" + id),
     updateUserData: id => new Endpoint("users/" + id),
+    createCourse: new Endpoint("courses"),
     uploadAvatar: new ImageEndpoint("/upload"),
+    getWeatherByCity: city =>
+        new WeatherEndpoint(`${city}&appid=${config.WEATHER_API_KEY}`),
 };

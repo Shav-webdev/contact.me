@@ -5,6 +5,7 @@ const passport = require("passport");
 const auth = require("./api/routes/auth.routes");
 const { db } = require("../server/db/db");
 const users = require("./api/routes/users.routes");
+const courses = require("./api/routes/courses.routes");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(auth);
 app.use(users);
+app.use(courses);
 
 const PORT = process.env.PORT || 3001;
 

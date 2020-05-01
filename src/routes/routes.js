@@ -12,6 +12,7 @@ import Register from "../containers/register/register";
 import ProfileLayout from "../hoc/layouts/profileLayout";
 import Profile from "../pages/profile/profile";
 import { connect } from "react-redux";
+import EditProfileLayout from "../hoc/layouts/editProfileLayout/EditProfileLayout";
 
 function Routes(props) {
     const { isLogin } = props;
@@ -39,6 +40,13 @@ function Routes(props) {
                         <AppRoute
                             path="/profile"
                             layout={ProfileLayout}
+                            component={Profile}
+                        />
+                    )}
+                    {isLogin && (
+                        <AppRoute
+                            path="/edit"
+                            layout={EditProfileLayout}
                             component={Profile}
                         />
                     )}

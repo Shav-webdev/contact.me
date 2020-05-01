@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./profileInfo.module.css";
 import ProfileAvatar from "../../components/avatar/profileAvatar";
 import { connect } from "react-redux";
@@ -8,10 +8,16 @@ function ProfileInfo(props) {
     const { users } = props;
     const { userData } = users;
     const { approved, avatar, firstName, lastName, phoneNumber } = userData;
+
+    useEffect(() => {}, [approved, avatar, firstName, lastName, phoneNumber]);
     return (
         <div className={classes.wrapper}>
             <div className={classes.avatarSection}>
-                <ProfileAvatar url={avatar} alt={`${firstName} avatar`} />
+                <ProfileAvatar
+                    url={avatar}
+                    alt={`${firstName} avatar`}
+                    avatarClassName="large"
+                />
                 <ImageUpload />
             </div>
             <div className={classes.infoWrapper}>

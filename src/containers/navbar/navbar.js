@@ -11,8 +11,6 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import HomeIcon from "@material-ui/icons/Home";
 import InfoIcon from "@material-ui/icons/Info";
 import ContactsIcon from "@material-ui/icons/Contacts";
 import Drawer from "@material-ui/core/Drawer";
@@ -21,10 +19,11 @@ import { connect } from "react-redux";
 import { authLogoutThunk } from "../../redux/thunks";
 import StyledButton from "../../components/styledButton/styledButton";
 import Divider from "@material-ui/core/Divider";
+import DrawerNavMenu from "../../components/drawerNavMenu";
+import LogoutDropdown from "../../components/logoutDropdown";
 
 function NavBar(props) {
-    const { logout } = props;
-    const { isLogin } = props;
+    const { logout, isLogin, isRegister } = props;
     const [open, setOpen] = useState(false);
     const [menuBtnVisible, setMenuBtnVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -81,28 +80,23 @@ function NavBar(props) {
                                 </>
                             ) : (
                                 <div style={{ display: "flex", width: "100%" }}>
-                                    <NavItem addStyle="navButton" href="/">
-                                        Login
-                                    </NavItem>
-                                    <NavItem
-                                        addStyle="navButton"
-                                        href="/register"
-                                    >
-                                        Register
-                                    </NavItem>
+                                    {isRegister && (
+                                        <NavItem addStyle="navButton" href="/">
+                                            Login
+                                        </NavItem>
+                                    )}
+                                    {!isRegister && (
+                                        <NavItem
+                                            addStyle="navButton"
+                                            href="/register"
+                                        >
+                                            Register
+                                        </NavItem>
+                                    )}
                                 </div>
                             )}
                         </List>
-                        {isLogin && (
-                            <div>
-                                <StyledButton
-                                    handleBtnClick={handleLogout}
-                                    btnClassName="navButton"
-                                >
-                                    Logout
-                                </StyledButton>
-                            </div>
-                        )}
+                        {isLogin && <LogoutDropdown />}
                     </>
                 )}
                 {menuBtnVisible && (
@@ -139,24 +133,7 @@ function NavBar(props) {
                     <List>
                         {isLogin ? (
                             <>
-                                <ListItem button key={"Home"}>
-                                    <ListItemIcon>
-                                        <HomeIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Home"} />
-                                </ListItem>
-                                <ListItem button key={"About"}>
-                                    <ListItemIcon>
-                                        <InfoIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"About"} />
-                                </ListItem>
-                                <ListItem button key={"Contacts"}>
-                                    <ListItemIcon>
-                                        <ContactsIcon />
-                                    </ListItemIcon>
-                                    <ListItemText primary={"Contacts"} />
-                                </ListItem>
+                                <DrawerNavMenu />
                                 <Divider />
                                 <StyledButton
                                     handleBtnClick={handleLogout}

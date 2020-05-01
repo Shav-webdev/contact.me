@@ -27,6 +27,11 @@ export default function ModalDialog({
         setOpen(false);
     };
 
+    const handleOkBtnClick = () => {
+        okBtnClick();
+        setOpen(false);
+    };
+
     return (
         <div>
             <Button
@@ -48,7 +53,11 @@ export default function ModalDialog({
                     <Button autoFocus onClick={handleClose} color="primary">
                         {cancelBtnText}
                     </Button>
-                    <Button onClick={okBtnClick} color="primary" autoFocus>
+                    <Button
+                        onClick={handleOkBtnClick}
+                        color="primary"
+                        autoFocus
+                    >
                         {okBtnText}
                     </Button>
                 </DialogActions>

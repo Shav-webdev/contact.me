@@ -68,8 +68,8 @@ module.exports = {
             "The User cannot be deleted. The User has pending order(s)!",
         errorCompanyCannotDel:
             "The company cannot be deleted. The company has pending order(s)!",
-        errorNotEnoughMoney: `You can't create order, you don't enough money`,
-        errorNoSuchUser: "There is no such user",
+        errorNotEnoughMoney: "You can't create order, you don't enough money",
+        errorNoUserFound: "No users found",
         errorEmptyFields: "Some input fields are wrong or empty",
 
         successDeletedMessage: "Deliverer deleted",
@@ -80,6 +80,9 @@ module.exports = {
         successAuthMessage: "Auth successful",
         successUserDeleted: "User has been deleted",
         successUserCreated: "User successfully created",
+        successUserAvatarUpdated: "Avatar successfully updated",
+        successCourseCreated: "Course successfully created",
+        successCourseDeleted: "Course has been deleted",
     },
     selectTypes: {
         userGetAll:

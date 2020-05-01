@@ -1,6 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const User = require("../../models/user.models");
+const User = require("../models/user.models");
 const { config } = require("../../utils/config");
 const { messages, types } = require("../../services/constants");
 const nodemailer = require("nodemailer");
@@ -83,6 +83,7 @@ exports.authRegister = async (req, res) => {
             pass,
             gender,
             birthday,
+            role,
         } = req.body;
 
         const user = await User.findOne({
@@ -103,6 +104,7 @@ exports.authRegister = async (req, res) => {
                     email: email.toLowerCase(),
                     phoneNumber,
                     password: hash,
+                    role,
                 });
                 await user.save(async (err, user) => {
                     if (err) {
@@ -117,9 +119,6 @@ exports.authRegister = async (req, res) => {
                             message: errorMessage,
                         });
                     }
-                    // sendEmail.sendInfoSignUp(user)
-                    // sendEmail.sendWaitEmailForReceiver(user)
-
                     res.status(201).send({
                         message: successUserCreated,
                     });

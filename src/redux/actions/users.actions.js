@@ -5,7 +5,9 @@ import {
     UPLOAD_AVATAR_REQUEST,
     UPLOAD_AVATAR_SUCCESS,
     UPLOAD_AVATAR_FAILURE,
-} from "../actions/constants";
+    HIDE_REQUEST_MESSAGE,
+    SHOW_REQUEST_MESSAGE,
+} from "./constants";
 
 export const getUserByIdRequest = () => ({
     type: GET_USER_BY_ID_REQUEST,
@@ -26,4 +28,12 @@ export const uploadAvatarSuccess = data => ({
 });
 export const uploadAvatarFailure = () => ({
     type: UPLOAD_AVATAR_FAILURE,
+});
+
+export const showRequestMessage = data => ({
+    type: SHOW_REQUEST_MESSAGE,
+    payload: data,
+});
+export const hideRequestMessage = () => ({
+    type: HIDE_REQUEST_MESSAGE,
 });

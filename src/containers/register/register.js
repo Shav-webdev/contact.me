@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -35,6 +35,7 @@ import history from "../../routes/history";
 import { connect } from "react-redux";
 import { autoLoginThunk, userRegisterThunk } from "../../redux/thunks";
 import QueryMessage from "../../components/queryMessage/queryMessage";
+import Switch from "@material-ui/core/Switch";
 
 const {
     passText,
@@ -70,6 +71,8 @@ function Register(props) {
         register,
     } = props;
 
+    const [role, setRole] = useState("professor");
+    const [isProfessor, setIsProfessor] = useState(true);
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [pass, setPass] = useState("");
@@ -99,8 +102,7 @@ function Register(props) {
         if (isLogin) {
             history.push("/profile");
         }
-        // eslint-disable-next-line
-    }, []);
+    }, [autoLogin, isLogin]);
 
     useEffect(() => {
         if (!firstName) {
@@ -194,6 +196,16 @@ function Register(props) {
         setIsDateValid(true);
     };
 
+    const handleRoleChange = useCallback(e => {
+        setIsProfessor(prevState => !prevState);
+        console.log(e.target.checked);
+        if (e.target.checked) {
+            setRole("professor");
+        } else {
+            setRole("user");
+        }
+    }, []);
+
     const onRegisterBtnClick = () => {
         if (
             !isFirstNameValid &&
@@ -234,6 +246,7 @@ function Register(props) {
                 pass,
                 gender,
                 birthday: selectedDate,
+                role,
             };
             register(data);
             setFirstName("");
@@ -259,6 +272,30 @@ function Register(props) {
                 </Typography>
                 <form className={classes.form} noValidate>
                     <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <div>
+                                <div style={{ textAlign: "center" }}>
+                                    <span>Sign up as</span>
+                                </div>
+                                <div className={classes.switch}>
+                                    <span>Student</span>
+                                    <Switch
+                                        checked={isProfessor}
+                                        onChange={handleRoleChange}
+                                        classes={{
+                                            thumb: classes.thumb,
+                                            track: classes.track,
+                                        }}
+                                        name="role"
+                                        inputProps={{
+                                            "aria-label": "secondary checkbox",
+                                        }}
+                                    />
+
+                                    <span>Professor</span>
+                                </div>
+                            </div>
+                        </Grid>
                         <Grid item xs={12} sm={6}>
                             <FormItem
                                 inputValue={firstName}

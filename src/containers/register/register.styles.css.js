@@ -34,4 +34,15 @@ export const useStyles = makeStyles(theme => ({
         marginBottom: "1rem",
         width: "100%",
     },
+    switch: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    thumb: {
+        backgroundColor: "#e90505",
+    },
+    track: {
+        backgroundColor: "#3e1774",
+    },
 }));
