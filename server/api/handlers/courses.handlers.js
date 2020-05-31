@@ -32,3 +32,31 @@ module.exports.createCourse = async (req, res) => {
         });
     }
 };
+
+module.exports.getCourses = async (req, res) => {
+    console.log(req.params);
+    const courses = await Course.find({});
+    if (courses) {
+        res.status(200).send({
+            courses,
+            messages: messages.successCoursesFound,
+        });
+    } else {
+        res.status(404).send({ message: messages.errorNoCourseFound });
+    }
+};
+module.exports.getUserCourses = async (req, res) => {
+    console.log(req.params);
+    if (req.params && req.params.id) {
+        const userId = req.params.id;
+        const courses = await Course.find({}, { author: userId });
+        if (courses) {
+            res.status(200).send({
+                courses,
+                messages: messages.successCoursesFound,
+            });
+        } else {
+            res.status(404).send({ message: messages.errorUserNoCourseFound });
+        }
+    }
+};

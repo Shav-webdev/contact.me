@@ -23,8 +23,8 @@ import {
     validateName,
     validatePassword,
     validatePhoneNumber,
-} from "../../services/validations";
-import { validationMessages } from "../../services/constants";
+} from "../../utils/validations";
+import { validationMessages } from "../../utils/constants";
 import LockIcon from "@material-ui/icons/Lock";
 import moment from "moment";
 import FormControl from "@material-ui/core/FormControl";
@@ -69,6 +69,7 @@ function Register(props) {
         authMessageType,
         autoLogin,
         register,
+        userId,
     } = props;
 
     const [role, setRole] = useState("professor");
@@ -100,9 +101,9 @@ function Register(props) {
     useEffect(() => {
         autoLogin();
         if (isLogin) {
-            history.push("/profile");
+            history.push("/profile/" + userId);
         }
-    }, [autoLogin, isLogin]);
+    }, [autoLogin, isLogin, userId]);
 
     useEffect(() => {
         if (!firstName) {
@@ -198,7 +199,6 @@ function Register(props) {
 
     const handleRoleChange = useCallback(e => {
         setIsProfessor(prevState => !prevState);
-        console.log(e.target.checked);
         if (e.target.checked) {
             setRole("professor");
         } else {
@@ -456,7 +456,14 @@ function Register(props) {
 
 const mapStateToProps = state => {
     const { auth } = state;
-    const { showMessage, isLogin, authMessage, authMessageType } = auth;
+    const {
+        showMessage,
+        isLogin,
+        authMessage,
+        authMessageType,
+        authData,
+    } = auth;
+    const { userId } = authData;
     return {
         showMessage,
         isLogin,

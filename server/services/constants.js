@@ -71,6 +71,8 @@ module.exports = {
         errorNotEnoughMoney: "You can't create order, you don't enough money",
         errorNoUserFound: "No users found",
         errorEmptyFields: "Some input fields are wrong or empty",
+        errorNoCourseFound: "Courses not found.",
+        errorUserNoCourseFound: "User courses not found.",
 
         successDeletedMessage: "Deliverer deleted",
         successOrderDeleted: "Order deleted",
@@ -83,6 +85,7 @@ module.exports = {
         successUserAvatarUpdated: "Avatar successfully updated",
         successCourseCreated: "Course successfully created",
         successCourseDeleted: "Course has been deleted",
+        successCoursesFound: "Courses successfully founded.",
     },
     selectTypes: {
         userGetAll:

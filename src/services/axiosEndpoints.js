@@ -1,6 +1,6 @@
 import axios from "axios";
 import EndpointFactory from "axios-endpoints";
-import config from "./config";
+import config from "../utils/config";
 
 const axiosInstance = axios.create({
     baseURL: "/",
@@ -33,6 +33,8 @@ export default {
     getUserById: id => new Endpoint("users/" + id),
     updateUserData: id => new Endpoint("users/" + id),
     createCourse: new Endpoint("courses"),
+    getCourses: new Endpoint("courses"),
+    getUserCourses: id => new Endpoint("courses/" + id),
     uploadAvatar: new ImageEndpoint("/upload"),
     getWeatherByCity: city =>
         new WeatherEndpoint(`${city}&appid=${config.WEATHER_API_KEY}`),

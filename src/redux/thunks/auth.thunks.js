@@ -1,5 +1,5 @@
 import api from "../../services/axiosEndpoints";
-import { queryMessages, messageType } from "../../services/constants";
+import { queryMessages, messageType } from "../../utils/constants";
 import {
     signOutRequest,
     signOutSuccess,
@@ -80,7 +80,11 @@ export const userLoginThunk = data => async dispatch => {
         setTimeout(() => dispatch(hideAuthMessage()), 4000);
     } catch (error) {
         dispatch(authFailure());
-        if (error.response && error.response.data.message) {
+        if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+        ) {
             console.log(error.response);
             dispatch(
                 authFailureMessage({

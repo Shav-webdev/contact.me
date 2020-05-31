@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import classes from "./login.module.css";
 import FormItem from "../../components/formItem/formItem";
-import { validateEmail, validatePassword } from "../../services/validations";
+import { validateEmail, validatePassword } from "../../utils/validations";
 import { Button } from "@material-ui/core";
-import { validationMessages } from "../../services/constants";
+import { validationMessages } from "../../utils/constants";
 import { Link } from "react-router-dom";
 import LockIcon from "@material-ui/icons/Lock";
 import AccountCircle from "@material-ui/icons/AccountCircle";

@@ -2,11 +2,14 @@ import React from "react";
 import Header from "../../sections/header";
 import Main from "../../sections/main";
 import Footer from "../../sections/footer";
+import NavBar from "../../../containers/navbar/navbar";
 
-export default function NotFoundLayout(props) {
+export default function CoursesLayout(props) {
     return (
         <>
-            <Header></Header>
+            <Header>
+                <NavBar />
+            </Header>
             <Main>{props.children}</Main>
             <Footer></Footer>
         </>

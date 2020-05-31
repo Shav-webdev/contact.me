@@ -12,8 +12,8 @@ import {
     authFailureMessage,
     hideRequestMessage,
 } from "../actions";
-import config from "../../services/config";
-import { queryMessages } from "../../services/constants";
+import config from "../../utils/config";
+import { queryMessages } from "../../utils/constants";
 const { CLOUDINARY_UPLOAD_AVATAR_PRESET } = config;
 
 export const getUserThunk = id => async dispatch => {

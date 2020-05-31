@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import FormItem from "../../../components/formItem/formItem";
-import { validateComment, validateName } from "../../../services/validations";
+import { validateComment, validateName } from "../../../utils/validations";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";
-import { validationMessages } from "../../../services/constants";
+import { validationMessages } from "../../../utils/constants";
 
 const { courseText, descriptionText } = validationMessages;
 

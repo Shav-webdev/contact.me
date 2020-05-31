@@ -5,12 +5,17 @@ import HomeIcon from "@material-ui/icons/Home";
 import ListItemText from "@material-ui/core/ListItemText";
 import InfoIcon from "@material-ui/icons/Info";
 import ContactsIcon from "@material-ui/icons/Contacts";
+import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
 
 export default function DrawerNavMenu(props) {
     const menuItems = [
         {
             item: "Home",
             icon: <HomeIcon />,
+        },
+        {
+            item: "Courses",
+            icon: <LibraryBooksIcon />,
         },
         {
             item: "About",

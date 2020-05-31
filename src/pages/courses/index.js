@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import QueryMessage from "../../components/queryMessage/queryMessage";
 import { connect } from "react-redux";
 import {
-    autoLoginThunk,
     createCourseThunk,
     getUserThunk,
+    getAllCoursesThunk,
 } from "../../redux/thunks";
 import ModalDialog from "../../components/modal/modal";
 import CreateCourse from "./components/createCourse";
+import CoursesTable from "./components/coursesTable";
+import CoursesTabs from "./components/coursesTabs";
 
-function Profile(props) {
+function CoursesPage(props) {
     const {
-        showMessage,
-        authMessage,
-        authMessageType,
         createCourse,
         getUserById,
         autoLogin,
@@ -22,6 +21,7 @@ function Profile(props) {
         requestMessage,
         msgType,
         userId,
+        getAllCourses,
     } = props;
 
     const [course, setCourse] = useState("");
@@ -34,13 +34,14 @@ function Profile(props) {
     const [isCourseValid, setIsCourseValid] = useState(false);
 
     useEffect(() => {
-        autoLogin();
+        // autoLogin();
+        getAllCourses();
     }, [autoLogin, isLogin]);
 
-    useEffect(() => {
-        const userId = JSON.parse(localStorage.getItem("auth")).userId;
-        getUserById(userId);
-    }, [getUserById]);
+    // useEffect(() => {
+    //     const userId = JSON.parse(localStorage.getItem("auth")).userId;
+    //     getUserById(userId);
+    // }, [getUserById]);
 
     const handleCreateCourse = () => {
         if (isDescValid && isCourseValid) {
@@ -74,13 +75,6 @@ function Profile(props) {
                     textMessage={requestMessage}
                 />
             )}
-            {showMessage && authMessage && (
-                <QueryMessage
-                    variant={authMessageType}
-                    showMessage={showMessage}
-                    textMessage={authMessage}
-                />
-            )}
             <ModalDialog
                 title="Create new course"
                 okBtnClick={handleCreateCourse}
@@ -102,25 +96,18 @@ function Profile(props) {
                     />
                 }
             />
+            <CoursesTabs />
         </>
     );
 }
 
 const mapStateToProps = state => {
     const { auth, users } = state;
-    const {
-        showMessage,
-        authMessage,
-        authMessageType,
-        isLogin,
-        authData,
-    } = auth;
+    const { showMessage, isLogin, authData } = auth;
     const { showReqMessage, requestMessage, msgType } = users;
     const { userId } = authData;
     return {
         showMessage,
-        authMessage,
-        authMessageType,
         isLogin,
         showReqMessage,
         requestMessage,
@@ -131,12 +118,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        getUserById: id => dispatch(getUserThunk(id)),
-        autoLogin: () => dispatch(autoLoginThunk()),
-        createCourse: course => {
-            dispatch(createCourseThunk(course));
-        },
+        // getUserById: id => dispatch(getUserThunk(id)),
+        getAllCourses: () => dispatch(getAllCoursesThunk()),
+        createCourse: course => dispatch(createCourseThunk(course)),
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);

@@ -15,14 +15,15 @@ function Home(props) {
         authMessage,
         authMessageType,
         autoLogin,
+        userId,
     } = props;
 
     useEffect(() => {
         autoLogin();
         if (isLogin) {
-            history.push("/profile");
+            history.push("/profile/" + userId);
         }
-    });
+    }, [isLogin, userId]);
 
     if (signing) {
         return <AppSpinner />;
@@ -60,13 +61,16 @@ const mapStateToProps = state => {
         isLogin,
         authMessage,
         authMessageType,
+        authData,
     } = auth;
+    const { userId } = authData;
     return {
         showMessage,
         signing,
         isLogin,
         authMessage,
         authMessageType,
+        userId,
     };
 };
 

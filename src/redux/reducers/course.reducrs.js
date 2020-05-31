@@ -4,11 +4,16 @@ import {
     CREATE_COURSE_FAILURE,
     SHOW_REQUEST_MESSAGE,
     HIDE_REQUEST_MESSAGE,
+    GET_ALL_COURSES_REQUEST,
+    GET_ALL_COURSES_SUCCESS,
+    GET_ALL_COURSES_FAILURE,
 } from "../actions/constants";
 
 const initialState = {
     creatingCourse: false,
-    courses: [],
+    gettingCourses: false,
+    allCourses: [],
+    userCourses: [],
     requestMessage: "",
     msgType: null,
     showReqMessage: false,
@@ -31,6 +36,22 @@ export default function coursesReducer(state = initialState, action) {
             return {
                 ...state,
                 creatingCourse: false,
+            };
+        case GET_ALL_COURSES_REQUEST:
+            return {
+                ...state,
+                gettingCourses: true,
+            };
+        case GET_ALL_COURSES_SUCCESS:
+            return {
+                ...state,
+                gettingCourses: false,
+                allCourses: [...action.payload],
+            };
+        case GET_ALL_COURSES_FAILURE:
+            return {
+                ...state,
+                gettingCourses: false,
             };
         case SHOW_REQUEST_MESSAGE:
             return {

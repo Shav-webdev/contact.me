@@ -21,13 +21,13 @@ import StyledButton from "../../components/styledButton/styledButton";
 import Divider from "@material-ui/core/Divider";
 import DrawerNavMenu from "../../components/drawerNavMenu";
 import LogoutDropdown from "../../components/logoutDropdown";
+import { Trans } from "react-i18next";
 
 function NavBar(props) {
     const { logout, isLogin, isRegister } = props;
     const [open, setOpen] = useState(false);
     const [menuBtnVisible, setMenuBtnVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
     useEffect(() => {
         if (windowWidth > 764) {
             setMenuBtnVisible(false);
@@ -74,15 +74,29 @@ function NavBar(props) {
                         <List className={styles.navbar}>
                             {isLogin ? (
                                 <>
-                                    <NavItem href="/">Home</NavItem>
-                                    <NavItem href="/about">About</NavItem>
-                                    <NavItem href="/contacts">Contacts</NavItem>
+                                    <NavItem href="/">
+                                        <Trans>Home</Trans>
+                                    </NavItem>
+                                    <NavItem href="/courses">
+                                        <Trans>Courses</Trans>
+                                    </NavItem>
+                                    <NavItem href="/about">
+                                        <Trans>About</Trans>
+                                    </NavItem>
+                                    <NavItem href="/contacts">
+                                        <Trans>Contacts</Trans>
+                                    </NavItem>
                                 </>
                             ) : (
-                                <div style={{ display: "flex", width: "100%" }}>
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        width: "100%",
+                                    }}
+                                >
                                     {isRegister && (
                                         <NavItem addStyle="navButton" href="/">
-                                            Login
+                                            <Trans>Login</Trans>
                                         </NavItem>
                                     )}
                                     {!isRegister && (
@@ -90,7 +104,7 @@ function NavBar(props) {
                                             addStyle="navButton"
                                             href="/register"
                                         >
-                                            Register
+                                            <Trans>Register</Trans>
                                         </NavItem>
                                     )}
                                 </div>
@@ -111,75 +125,80 @@ function NavBar(props) {
                     </IconButton>
                 )}
             </div>
-            {menuBtnVisible && (
-                <Drawer
-                    className={classes.drawer}
-                    variant="persistent"
-                    anchor="right"
-                    open={open}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                >
-                    <div className={classes.drawerHeader}>
-                        <IconButton onClick={handleDrawerClose}>
-                            {theme.direction === "rtl" ? (
-                                <ChevronLeftIcon />
-                            ) : (
-                                <ChevronRightIcon />
-                            )}
-                        </IconButton>
-                    </div>
-                    <List>
-                        {isLogin ? (
-                            <>
-                                <DrawerNavMenu />
-                                <Divider />
-                                <StyledButton
-                                    handleBtnClick={handleLogout}
-                                    btnClassName="btnAccentBlue"
-                                >
-                                    Logout
-                                </StyledButton>
-                            </>
-                        ) : (
-                            <>
-                                <ListItem
-                                    classes={{
-                                        button: classes.menuListItem,
-                                    }}
-                                    button
-                                    key={"Login"}
-                                >
-                                    <ListItemIcon>
-                                        <InfoIcon />
-                                    </ListItemIcon>
-                                    <NavItem addStyle="sidebarItem" href="/">
-                                        Login
-                                    </NavItem>
-                                </ListItem>
-                                <ListItem
-                                    classes={{
-                                        button: classes.menuListItem,
-                                    }}
-                                    button
-                                    key={"Register"}
-                                >
-                                    <ListItemIcon>
-                                        <ContactsIcon />
-                                    </ListItemIcon>
-                                    <NavItem
-                                        addStyle="sidebarItem"
-                                        href="/register"
+            <>
+                {menuBtnVisible && (
+                    <Drawer
+                        className={classes.drawer}
+                        variant="persistent"
+                        anchor="right"
+                        open={open}
+                        classes={{
+                            paper: classes.drawerPaper,
+                        }}
+                    >
+                        <div className={classes.drawerHeader}>
+                            <IconButton onClick={handleDrawerClose}>
+                                {theme.direction === "rtl" ? (
+                                    <ChevronLeftIcon />
+                                ) : (
+                                    <ChevronRightIcon />
+                                )}
+                            </IconButton>
+                        </div>
+                        <List>
+                            {isLogin ? (
+                                <>
+                                    <DrawerNavMenu />
+                                    <Divider />
+                                    <StyledButton
+                                        handleBtnClick={handleLogout}
+                                        btnClassName="btnAccentBlue"
                                     >
-                                        Register
-                                    </NavItem>
-                                </ListItem>
-                            </>
-                        )}
-                    </List>
-                </Drawer>
-            )}
+                                        <Trans>Logout</Trans>
+                                    </StyledButton>
+                                </>
+                            ) : (
+                                <>
+                                    <ListItem
+                                        classes={{
+                                            button: classes.menuListItem,
+                                        }}
+                                        button
+                                        key={"Login"}
+                                    >
+                                        <ListItemIcon>
+                                            <InfoIcon />
+                                        </ListItemIcon>
+                                        <NavItem
+                                            addStyle="sidebarItem"
+                                            href="/"
+                                        >
+                                            <Trans>Login</Trans>
+                                        </NavItem>
+                                    </ListItem>
+                                    <ListItem
+                                        classes={{
+                                            button: classes.menuListItem,
+                                        }}
+                                        button
+                                        key={"Register"}
+                                    >
+                                        <ListItemIcon>
+                                            <ContactsIcon />
+                                        </ListItemIcon>
+                                        <NavItem
+                                            addStyle="sidebarItem"
+                                            href="/register"
+                                        >
+                                            <Trans>Register</Trans>
+                                        </NavItem>
+                                    </ListItem>
+                                </>
+                            )}
+                        </List>
+                    </Drawer>
+                )}
+            </>
         </>
     );
 }

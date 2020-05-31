@@ -8,6 +8,10 @@ export const messageType = {
     successType: "success",
 };
 
+export const momentConstants = {
+    TIME_ZONE: "Asia/Yerevan",
+};
+
 export const validationMessages = {
     passText:
         "Password should contain at least 8 characters, one digit, one lower, one upper case",
