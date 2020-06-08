@@ -8,7 +8,9 @@
   "Password" : "Password",
   "LastName" : "Last name",
   "PhoneNumber" : "Phone number",
+  "Status" : "Status",
   "Course" : "Course",
+  "Messages" : "Messages",
   "Courses" : "Courses",
   "Create Course" : "Create Course",
   "Course name" : "Course name",
@@ -21,10 +23,16 @@
   "Add" : "Add",
   "Edit" : "Edit",
   "Delete" : "Delete",
+  "Cancel" : "Cancel",
+  "Upload" : "Upload",
+  "Drag 'n' drop some files here" : "Drag 'n' drop some files here, or click to select files",
+  "Only *.jpeg and *.png images will be accepted" : "Only *.jpeg and *.png images will be accepted",
+  "Accepted files" : "Accepted files",
+  "Change avatar" : "Change avatar",
+  "Change profile image" : "Change profile image",
   "Rate" : "Rate",
   "Description" : "Description",
   "Edit account" : "Edit account",
-  "Change avatar" : "Change avatar",
   "Don't have an account?" : "Don't have an account? Sign Up",
-  "Contact.me is a global " : "Contact.me is a global freelancing platform and social networking where businesses and independent professionals connect and collaborate remotely."
+  "Contact.me is a global" : "is a global freelancing platform and social networking where businesses and independent professionals connect and collaborate remotely."
 }

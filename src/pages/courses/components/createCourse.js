@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import FormItem from "../../../components/formItem/formItem";
 import { validateComment, validateName } from "../../../utils/validations";
 import LocalOfferIcon from "@material-ui/icons/LocalOffer";

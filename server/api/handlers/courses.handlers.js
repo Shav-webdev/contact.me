@@ -35,7 +35,9 @@ module.exports.createCourse = async (req, res) => {
 
 module.exports.getCourses = async (req, res) => {
     console.log(req.params);
-    const courses = await Course.find({});
+    const courses = await Course.find({}).sort({
+        createdTime: -1,
+    });
     if (courses) {
         res.status(200).send({
             courses,
@@ -45,11 +47,31 @@ module.exports.getCourses = async (req, res) => {
         res.status(404).send({ message: messages.errorNoCourseFound });
     }
 };
-module.exports.getUserCourses = async (req, res) => {
+
+module.exports.getActiveCourses = async (req, res) => {
     console.log(req.params);
+    if (req.params && req.params.status) {
+        const { status } = req.params;
+        const courses = await Course.find({ status }).sort({
+            createdTime: -1,
+        });
+        if (courses) {
+            res.status(200).send({
+                courses,
+                messages: messages.successCoursesFound,
+            });
+        } else {
+            res.status(404).send({ message: messages.errorNoCourseFound });
+        }
+    }
+};
+module.exports.getUserCourses = async (req, res) => {
+    console.log("req.params", req.params);
     if (req.params && req.params.id) {
         const userId = req.params.id;
-        const courses = await Course.find({}, { author: userId });
+        const courses = await Course.find({ author: userId }).sort({
+            createdTime: -1,
+        });
         if (courses) {
             res.status(200).send({
                 courses,

@@ -9,6 +9,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import armeniaSvg from "../../assets/images/armenia.svg";
 import americaSvg from "../../assets/images/america.svg";
+import LanguageIcon from "@material-ui/icons/Language";
+import classes from "./index.module.css";
+import { changeMomentLocale } from "../../utils/moment";
+import { momentConstants } from "../../utils/constants";
 
 const StyledMenu = withStyles({
     paper: {
@@ -41,7 +45,7 @@ const StyledMenuItem = withStyles(theme => ({
     },
 }))(MenuItem);
 
-function ChangeLanguageDropdown({ t }) {
+function ChangeLanguageDropdown(props) {
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = event => {
@@ -53,20 +57,19 @@ function ChangeLanguageDropdown({ t }) {
     };
 
     const changeLanguage = async lng => {
+        console.log("changeLanguage", lng);
+        changeMomentLocale(momentConstants[lng]);
         await i18n.changeLanguage(lng);
     };
 
     return (
-        <div>
+        <div className={classes.center}>
             <div>
                 <Button
-                    aria-controls="customized-menu"
-                    aria-haspopup="true"
-                    variant="contained"
-                    color="primary"
+                    style={{ color: props.isDrawer ? "#3f51b4" : "#fff" }}
                     onClick={handleClick}
                 >
-                    {t("Language")}
+                    <LanguageIcon />
                 </Button>
                 <StyledMenu
                     id="customized-menu"

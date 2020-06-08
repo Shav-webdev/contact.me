@@ -31,7 +31,7 @@ export default function ProfileLayout(props) {
 
     useEffect(() => {
         document.body.classList.add(classes.greyBg);
-    }, []);
+    }, [classes.greyBg]);
 
     return (
         <>
@@ -44,7 +44,7 @@ export default function ProfileLayout(props) {
                 </Aside>
                 <Main classname={classes.main}>{props.children}</Main>
             </div>
-            <Footer></Footer>
+            <Footer />
         </>
     );
 }

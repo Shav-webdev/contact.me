@@ -6,6 +6,7 @@ import AppSpinner from "../../components/spinners/appSpinner/appSpinner";
 import QueryMessage from "../../components/queryMessage/queryMessage";
 import history from "../../routes/history";
 import { autoLoginThunk } from "../../redux/thunks";
+import { withNamespaces } from "react-i18next";
 
 function Home(props) {
     const {
@@ -16,6 +17,7 @@ function Home(props) {
         authMessageType,
         autoLogin,
         userId,
+        t,
     } = props;
 
     useEffect(() => {
@@ -23,7 +25,7 @@ function Home(props) {
         if (isLogin) {
             history.push("/profile/" + userId);
         }
-    }, [isLogin, userId]);
+    }, [isLogin, userId, autoLogin]);
 
     if (signing) {
         return <AppSpinner />;
@@ -34,13 +36,11 @@ function Home(props) {
             <div className={classes.homePage}>
                 <div className={classes.textWrapper}>
                     <p className={classes.presentText}>
-                        <strong>Contact.me</strong> is a global freelancing
-                        platform and social networking where businesses and
-                        independent professionals connect and collaborate
-                        remotely.
+                        <strong>Contact.me</strong>{" "}
+                        {t("Contact.me is a global")}
                     </p>
                 </div>
-                <Login />
+                <Login t={t} />
             </div>
             {showMessage && authMessage && (
                 <QueryMessage
@@ -80,4 +80,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withNamespaces()(Home));

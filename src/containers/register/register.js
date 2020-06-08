@@ -456,14 +456,7 @@ function Register(props) {
 
 const mapStateToProps = state => {
     const { auth } = state;
-    const {
-        showMessage,
-        isLogin,
-        authMessage,
-        authMessageType,
-        authData,
-    } = auth;
-    const { userId } = authData;
+    const { showMessage, isLogin, authMessage, authMessageType } = auth;
     return {
         showMessage,
         isLogin,

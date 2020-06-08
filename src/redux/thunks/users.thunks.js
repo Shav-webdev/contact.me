@@ -8,8 +8,6 @@ import {
     uploadAvatarFailure,
     showRequestMessage,
     hideAuthMessage,
-    authFailure,
-    authFailureMessage,
     hideRequestMessage,
 } from "../actions";
 import config from "../../utils/config";

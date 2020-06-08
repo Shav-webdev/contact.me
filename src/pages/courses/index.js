@@ -1,20 +1,14 @@
 import React, { useEffect, useState } from "react";
 import QueryMessage from "../../components/queryMessage/queryMessage";
 import { connect } from "react-redux";
-import {
-    createCourseThunk,
-    getUserThunk,
-    getAllCoursesThunk,
-} from "../../redux/thunks";
+import { createCourseThunk, getAllCoursesThunk } from "../../redux/thunks";
 import ModalDialog from "../../components/modal/modal";
 import CreateCourse from "./components/createCourse";
-import CoursesTable from "./components/coursesTable";
 import CoursesTabs from "./components/coursesTabs";
 
 function CoursesPage(props) {
     const {
         createCourse,
-        getUserById,
         autoLogin,
         isLogin,
         showReqMessage,
@@ -36,7 +30,7 @@ function CoursesPage(props) {
     useEffect(() => {
         // autoLogin();
         getAllCourses();
-    }, [autoLogin, isLogin]);
+    }, [autoLogin, isLogin, getAllCourses]);
 
     // useEffect(() => {
     //     const userId = JSON.parse(localStorage.getItem("auth")).userId;

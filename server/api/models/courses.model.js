@@ -1,5 +1,7 @@
 const { model, Schema } = require("mongoose");
-const userSchema = require("./user.models");
+// const userSchema = require("./user.models");
+const { status } = require("../../services/constants");
+const { pending } = status;
 
 const coursesSchema = new Schema({
     author: {
@@ -30,7 +32,7 @@ const coursesSchema = new Schema({
     },
     status: {
         type: String,
-        default: "passive",
+        default: pending,
     },
     createdTime: {
         type: Number,

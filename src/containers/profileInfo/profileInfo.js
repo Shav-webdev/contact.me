@@ -3,9 +3,10 @@ import classes from "./profileInfo.module.css";
 import ProfileAvatar from "../../components/avatar/profileAvatar";
 import { connect } from "react-redux";
 import ImageUpload from "../imageUpload/imageUpload";
+import { withNamespaces } from "react-i18next";
 
 function ProfileInfo(props) {
-    const { users } = props;
+    const { users, t } = props;
     const { userData } = users;
     const { approved, avatar, firstName, lastName, phoneNumber } = userData;
 
@@ -18,30 +19,30 @@ function ProfileInfo(props) {
                     alt={`${firstName} avatar`}
                     avatarClassName="large"
                 />
-                <ImageUpload />
+                <ImageUpload t={t} />
             </div>
             <div className={classes.infoWrapper}>
                 <p>
                     <span>
-                        <strong>Name </strong>
+                        <strong>{t("Name")} </strong>
                         {firstName}
                     </span>
                 </p>
                 <p>
                     <span>
-                        <strong>Last name </strong>
+                        <strong>{t("LastName")}</strong>
                         {lastName}
                     </span>
                 </p>
                 <p>
                     <span>
-                        <strong>Phone number </strong>
+                        <strong>{t("PhoneNumber")} </strong>
                         {phoneNumber}
                     </span>
                 </p>
                 <p>
                     <span>
-                        <strong>Status </strong>
+                        <strong>{t("Status")} </strong>
                         {approved}
                     </span>
                 </p>
@@ -57,4 +58,7 @@ const mapStateToProps = state => {
     };
 };
 
-export default connect(mapStateToProps, null)(ProfileInfo);
+export default connect(
+    mapStateToProps,
+    null
+)(withNamespaces()(React.memo(ProfileInfo)));

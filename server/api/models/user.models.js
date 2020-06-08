@@ -1,5 +1,8 @@
 const { Schema, model } = require("mongoose");
 const { validation } = require("../../services/constants");
+const { status, types } = require("../../services/constants");
+const { pending } = status;
+const { user } = types;
 
 const {
     nameMaxLength,
@@ -95,11 +98,11 @@ const usersSchema = new Schema({
     },
     approved: {
         type: String,
-        default: "pending",
+        default: pending,
     },
     role: {
         type: String,
-        default: "user",
+        default: user,
     },
     avatar: {
         type: String,

@@ -14,7 +14,7 @@ import { userLoginThunk } from "../../redux/thunks/index";
 const { emailText, passText } = validationMessages;
 
 function Login(props) {
-    const { login } = props;
+    const { login, t } = props;
 
     const [email, setEmail] = useState("");
     const [pass, setPass] = useState("");
@@ -75,7 +75,7 @@ function Login(props) {
     return (
         <div className={classes.loginWrapper}>
             <div className={classes.loginHeadingWrapper}>
-                <h1>Sign in</h1>
+                <h1>{t("Login")}</h1>
             </div>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -86,8 +86,8 @@ function Login(props) {
                         getInputValue={getEmailValue}
                         validateInputField={validateEmail}
                         validationText={emailText}
-                        label="Email"
-                        placeholder="Email"
+                        label={t("Email")}
+                        placeholder={t("Email")}
                         type="email"
                         required={true}
                         icon={<AccountCircle />}
@@ -101,8 +101,8 @@ function Login(props) {
                         getInputValue={getPasswordValue}
                         validateInputField={validatePassword}
                         validationText={passText}
-                        label="Password"
-                        placeholder="Password"
+                        label={t("Password")}
+                        placeholder={t("Password")}
                         type="password"
                         required={true}
                         icon={<LockIcon />}
@@ -116,7 +116,7 @@ function Login(props) {
                 color="primary"
                 fullWidth
             >
-                Sign In
+                {t("Login")}
             </Button>
             <Grid container justify="flex-end" style={{ marginTop: "1rem" }}>
                 <Grid item>
@@ -125,7 +125,7 @@ function Login(props) {
                         to="/register"
                         variant="body2"
                     >
-                        {"Don't have an account? Sign Up"}
+                        {t("Don't have an account?")}
                     </Link>
                 </Grid>
             </Grid>
@@ -141,4 +141,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(React.memo(Login));

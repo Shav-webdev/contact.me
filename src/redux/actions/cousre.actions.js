@@ -7,6 +7,9 @@ import {
     GET_ALL_COURSES_REQUEST,
     GET_ALL_COURSES_SUCCESS,
     GET_ALL_COURSES_FAILURE,
+    GET_USER_ALL_COURSES_REQUEST,
+    GET_USER_ALL_COURSES_SUCCESS,
+    GET_USER_ALL_COURSES_FAILURE,
 } from "./constants";
 
 export const createCourseRequest = () => ({
@@ -28,6 +31,16 @@ export const getAllCoursesSuccess = data => ({
 });
 export const getAllCoursesFailure = () => ({
     type: GET_ALL_COURSES_FAILURE,
+});
+export const getUserAllCoursesRequest = () => ({
+    type: GET_USER_ALL_COURSES_REQUEST,
+});
+export const getUserAllCoursesSuccess = data => ({
+    type: GET_USER_ALL_COURSES_SUCCESS,
+    payload: data,
+});
+export const getUserAllCoursesFailure = () => ({
+    type: GET_USER_ALL_COURSES_FAILURE,
 });
 export const showRequestMessage = data => ({
     type: SHOW_REQUEST_MESSAGE,

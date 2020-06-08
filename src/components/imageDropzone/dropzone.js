@@ -3,7 +3,7 @@ import { useDropzone } from "react-dropzone";
 import AttachFileIcon from "@material-ui/icons/AttachFile";
 
 export default function Dropzone(props) {
-    const { handleAccept } = props;
+    const { handleAccept, t } = props;
     const onDropAccepted = useCallback(
         acceptedFiles => {
             const img = acceptedFiles[0];
@@ -29,11 +29,11 @@ export default function Dropzone(props) {
         <section className="container">
             <div {...getRootProps({ className: "dropzone" })}>
                 <input {...getInputProps()} />
-                <p>Drag 'n' drop some files here, or click to select files</p>
-                <em>(Only *.jpeg and *.png images will be accepted)</em>
+                <p>{t("Drag 'n' drop some files here")}</p>
+                <em>({t("Only *.jpeg and *.png images will be accepted")})</em>
             </div>
             <aside>
-                <h4>Accepted files</h4>
+                <h4>{t("Accepted files")}</h4>
                 <ul style={{ listStyle: "none" }}>{acceptedFilesItems}</ul>
             </aside>
         </section>

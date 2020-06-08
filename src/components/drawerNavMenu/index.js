@@ -6,6 +6,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import InfoIcon from "@material-ui/icons/Info";
 import ContactsIcon from "@material-ui/icons/Contacts";
 import LibraryBooksIcon from "@material-ui/icons/LibraryBooks";
+import MessageIcon from "@material-ui/icons/Message";
 
 export default function DrawerNavMenu(props) {
     const menuItems = [
@@ -18,8 +19,8 @@ export default function DrawerNavMenu(props) {
             icon: <LibraryBooksIcon />,
         },
         {
-            item: "About",
-            icon: <InfoIcon />,
+            item: "Messages",
+            icon: <MessageIcon />,
         },
         {
             item: "Contacts",

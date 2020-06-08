@@ -7,6 +7,7 @@ import ProfileAvatar from "../avatar/profileAvatar";
 import { authLogoutThunk } from "../../redux/thunks";
 import { connect } from "react-redux";
 import history from "../../routes/history";
+import userAvatar from "../../assets/images/avatar.png";
 
 const useStyles = makeStyles({
     root: {
@@ -15,7 +16,7 @@ const useStyles = makeStyles({
 });
 
 function LogoutDropdown(props) {
-    const { logout, avatar, firstName } = props;
+    const { logout, avatar, firstName, t } = props;
     const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleClick = event => {
@@ -43,8 +44,8 @@ function LogoutDropdown(props) {
                 onClick={handleClick}
             >
                 <ProfileAvatar
-                    url={avatar}
-                    alt={`${firstName} avatar`}
+                    url={avatar ? avatar : userAvatar}
+                    alt={`${firstName ? firstName : "User"} avatar`}
                     avatarClassName="small"
                 />
             </Button>
@@ -56,11 +57,11 @@ function LogoutDropdown(props) {
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <MenuItem onClick={handleClose}>{t("Profile")}</MenuItem>
                 <MenuItem onClick={handleEditAccountClick}>
-                    Edit account
+                    {t("Edit account")}
                 </MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <MenuItem onClick={handleLogout}>{t("Logout")}</MenuItem>
             </Menu>
         </div>
     );

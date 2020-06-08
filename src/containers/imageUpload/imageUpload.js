@@ -5,7 +5,7 @@ import { uploadUserAvatarThunk } from "../../redux/thunks";
 import { connect } from "react-redux";
 
 function ImageUpload(props) {
-    const { userId, uploadImg } = props;
+    const { userId, uploadImg, t } = props;
 
     const [img, setImg] = useState(null);
 
@@ -19,11 +19,11 @@ function ImageUpload(props) {
 
     return (
         <ModalDialog
-            cancelBtnText="Cancel"
-            content={<Dropzone handleAccept={handleAccept} />}
-            okBtnText="Upload"
-            openBtnText="Change avatar"
-            title="Change profile image"
+            cancelBtnText={t("Cancel")}
+            content={<Dropzone t={t} handleAccept={handleAccept} />}
+            okBtnText={t("Upload")}
+            openBtnText={t("Change avatar")}
+            title={t("Change profile image")}
             okBtnClick={handleUpdateAvatar}
         />
     );

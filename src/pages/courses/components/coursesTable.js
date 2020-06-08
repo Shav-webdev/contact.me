@@ -2,11 +2,20 @@ import React from "react";
 import MUIDataTable from "mui-datatables";
 import Rating from "@material-ui/lab/Rating";
 import Box from "@material-ui/core/Box";
-import { connect } from "react-redux";
+import moment from "moment";
+import { createMuiTheme, MuiThemeProvider } from "@material-ui/core/styles";
 
-function CoursesTable(props) {
-    const { courses } = props;
-    const { allCourses } = courses;
+function CoursesTable({ courses }) {
+    const getMuiTheme = () =>
+        createMuiTheme({
+            overrides: {
+                MUIDataTableBodyCell: {
+                    root: {
+                        backgroundColor: "#FF0000",
+                    },
+                },
+            },
+        });
 
     const columns = [
         {
@@ -50,40 +59,29 @@ function CoursesTable(props) {
             name: "createdTime",
             label: "Created at",
             options: {
-                filter: true,
-                sort: true,
+                customBodyRender: value => (
+                    <span>{moment(value).format("LLL")}</span>
+                ),
             },
         },
     ];
 
-    // const data = [
-    //     { name: "Joe James", company: "Test Corp", city: "Yonkers", state: "NY" },
-    //     { name: "John Walsh", company: "Test Corp", city: "Hartford", state: "CT" },
-    //     { name: "Bob Herm", company: "Test Corp", city: "Tampa", state: "FL" },
-    //     { name: "James Houston", company: "Test Corp", city: "Dallas", state: "TX" },
-    // ];
-
     const options = {
-        filterType: "checkbox",
+        filterType: "dropdown",
+        // 'checkbox', 'dropdown', 'multiselect', 'textField', 'custom'
     };
     return (
-        <MUIDataTable
-            title={"Courses List"}
-            data={allCourses}
-            columns={columns}
-            options={options}
-        />
+        <div style={{ padding: "2rem 5rem" }}>
+            <MuiThemeProvider theme={getMuiTheme()}>
+                <MUIDataTable
+                    title={"Courses List"}
+                    data={courses}
+                    columns={columns}
+                    options={options}
+                />
+            </MuiThemeProvider>
+        </div>
     );
 }
-const mapStateToProps = state => {
-    const { courses } = state;
-    return {
-        courses,
-    };
-};
 
-const mapDispatchToProps = dispatch => {
-    return {};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(CoursesTable);
+export default React.memo(CoursesTable);

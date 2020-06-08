@@ -10,6 +10,8 @@ export const messageType = {
 
 export const momentConstants = {
     TIME_ZONE: "Asia/Yerevan",
+    en: "en-au",
+    hy: "hy-am",
 };
 
 export const validationMessages = {

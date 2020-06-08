@@ -15,15 +15,28 @@ import ProfileLayout from "../hoc/layouts/profileLayout";
 import Profile from "../pages/profile";
 import { connect } from "react-redux";
 import EditProfileLayout from "../hoc/layouts/editProfileLayout/EditProfileLayout";
+import { autoLoginThunk, getUserThunk } from "../redux/thunks";
+import MessagesLayout from "../hoc/layouts/messagesLayout";
+import Messages from "../pages/messages";
 
 function Routes(props) {
-    const { isLogin, userId } = props;
+    const { isLogin, userId, getUserById, autoLogin } = props;
 
     const [userID, setUserID] = useState(userId ? userId : null);
 
     useEffect(() => {
         setUserID(userId ? userId : null);
     }, [userId, userID, setUserID]);
+
+    useEffect(() => {
+        autoLogin();
+    }, [autoLogin, isLogin]);
+
+    useEffect(() => {
+        if (userId) {
+            getUserById(userId);
+        }
+    }, [getUserById, userId]);
 
     return (
         <>
@@ -73,6 +86,13 @@ function Routes(props) {
                             component={CoursesPage}
                         />
                     )}
+                    {isLogin && (
+                        <AppRoute
+                            path="/messages"
+                            layout={MessagesLayout}
+                            component={Messages}
+                        />
+                    )}
                     <AppRoute
                         exact
                         path="*"
@@ -92,4 +112,11 @@ const mapStateToProps = state => {
     return { isLogin, userId };
 };
 
-export default connect(mapStateToProps, null)(React.memo(Routes));
+const mapDispatchToProps = dispatch => {
+    return {
+        getUserById: id => dispatch(getUserThunk(id)),
+        autoLogin: () => dispatch(autoLoginThunk()),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Routes));

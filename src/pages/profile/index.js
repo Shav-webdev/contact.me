@@ -1,35 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import QueryMessage from "../../components/queryMessage/queryMessage";
 import { connect } from "react-redux";
-import {
-    autoLoginThunk,
-    createCourseThunk,
-    getUserThunk,
-} from "../../redux/thunks";
-import ModalDialog from "../../components/modal/modal";
-import CreateCourse from "../courses/components/createCourse";
 
 function ProfilePage(props) {
-    const {
-        showMessage,
-        authMessage,
-        authMessageType,
-        getUserById,
-        autoLogin,
-        isLogin,
-        showReqMessage,
-        requestMessage,
-        msgType,
-    } = props;
-
-    useEffect(() => {
-        autoLogin();
-    }, [autoLogin, isLogin]);
-
-    useEffect(() => {
-        const userId = JSON.parse(localStorage.getItem("auth")).userId;
-        getUserById(userId);
-    }, [getUserById]);
+    const { showReqMessage, requestMessage, msgType } = props;
 
     return (
         <>
@@ -40,13 +14,6 @@ function ProfilePage(props) {
                     textMessage={requestMessage}
                 />
             )}
-            {/*{showMessage && authMessage && (*/}
-            {/*    <QueryMessage*/}
-            {/*        variant={authMessageType}*/}
-            {/*        showMessage={showMessage}*/}
-            {/*        textMessage={authMessage}*/}
-            {/*    />*/}
-            {/*)}*/}
         </>
     );
 }
@@ -74,11 +41,4 @@ const mapStateToProps = state => {
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getUserById: id => dispatch(getUserThunk(id)),
-        autoLogin: () => dispatch(autoLoginThunk()),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfilePage);
+export default connect(mapStateToProps, null)(React.memo(ProfilePage));

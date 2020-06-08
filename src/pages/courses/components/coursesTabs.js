@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 import Tabs from "@material-ui/core/Tabs";
@@ -6,6 +6,12 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import CoursesTable from "./coursesTable";
 import Box from "@material-ui/core/Box";
+import { connect } from "react-redux";
+import {
+    getAllCoursesThunk,
+    getUserAllCoursesThunk,
+} from "../../../redux/thunks";
+import classes from "./courses.module.css";
 
 const StyledTabs = withStyles({
     indicator: {
@@ -18,7 +24,14 @@ const StyledTabs = withStyles({
             backgroundColor: "#635ee7",
         },
     },
-})(props => <Tabs {...props} TabIndicatorProps={{ children: <div /> }} />);
+})(props => (
+    <Tabs
+        className={classes.tabsWrapper}
+        style={{ display: "flex", justifyContent: "center" }}
+        {...props}
+        TabIndicatorProps={{ children: <div /> }}
+    />
+));
 
 const StyledTab = withStyles(theme => ({
     root: {
@@ -75,12 +88,27 @@ function a11yProps(index) {
     };
 }
 
-export default function CoursesTabs() {
+function CoursesTabs({
+    allCourses,
+    userCourses,
+    userId,
+    getUserCourses,
+    getAllCourses,
+}) {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
 
+    useEffect(() => {
+        getUserCourses(userId);
+    }, [getUserCourses, userId]);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
+        if (newValue === 0) {
+            getUserCourses(userId);
+        } else if (newValue === 1) {
+            getAllCourses();
+        }
     };
 
     return (
@@ -92,17 +120,42 @@ export default function CoursesTabs() {
             >
                 <StyledTab label="My courses" {...a11yProps(0)} />
                 <StyledTab label="All" {...a11yProps(1)} />
-                <StyledTab label="Active" {...a11yProps(2)} />
+                {/*<StyledTab label="Active" {...a11yProps(2)} />*/}
             </StyledTabs>
             <TabPanel value={value} index={0}>
-                <CoursesTable />
+                <CoursesTable courses={userCourses} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <CoursesTable />
+                <CoursesTable courses={allCourses} />
             </TabPanel>
-            <TabPanel value={value} index={2}>
-                <CoursesTable />
-            </TabPanel>
+            {/*TODO create get active courses*/}
+            {/*<TabPanel value={value} index={2}>*/}
+            {/*    <CoursesTable courses={} />*/}
+            {/*</TabPanel>*/}
         </div>
     );
 }
+
+const mapStateToProps = state => {
+    const { courses, auth } = state;
+    const { allCourses, userCourses } = courses;
+    const { authData } = auth;
+    const { userId } = authData;
+    return {
+        allCourses,
+        userCourses,
+        userId,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getUserCourses: id => dispatch(getUserAllCoursesThunk(id)),
+        getAllCourses: () => dispatch(getAllCoursesThunk()),
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(React.memo(CoursesTabs));

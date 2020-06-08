@@ -12,6 +12,7 @@ module.exports = {
         active: "active",
         accepted: "accepted",
         declined: "declined",
+        finished: "finished",
     },
     socketListeners: {
         newAccount: "new_account",

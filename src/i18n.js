@@ -15,15 +15,18 @@ const resources = {
 };
 
 i18n.use(reactI18nextModule) // passes i18n down to react-i18next
-    .init({
-        resources,
-        lng: "en",
+    .init(
+        {
+            resources,
+            lng: "en",
 
-        keySeparator: false, // we do not use keys in form messages.welcome
+            keySeparator: false, // we do not use keys in form messages.welcome
 
-        interpolation: {
-            escapeValue: false, // react already safes from xss
+            interpolation: {
+                escapeValue: false, // react already safes from xss
+            },
         },
-    });
+        err => err && console.log("something went wrong loading", err)
+    );
 
 export default i18n;

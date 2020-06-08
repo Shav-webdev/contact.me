@@ -21,9 +21,11 @@ import StyledButton from "../../components/styledButton/styledButton";
 import Divider from "@material-ui/core/Divider";
 import DrawerNavMenu from "../../components/drawerNavMenu";
 import LogoutDropdown from "../../components/logoutDropdown";
-import { Trans } from "react-i18next";
+import { withNamespaces } from "react-i18next";
+import ChangeLanguageDropdown from "../../components/changeLanguageDropdown";
 
 function NavBar(props) {
+    const { t } = props;
     const { logout, isLogin, isRegister } = props;
     const [open, setOpen] = useState(false);
     const [menuBtnVisible, setMenuBtnVisible] = useState(false);
@@ -74,29 +76,29 @@ function NavBar(props) {
                         <List className={styles.navbar}>
                             {isLogin ? (
                                 <>
-                                    <NavItem href="/">
-                                        <Trans>Home</Trans>
-                                    </NavItem>
+                                    <NavItem href="/">{t("Home")}</NavItem>
                                     <NavItem href="/courses">
-                                        <Trans>Courses</Trans>
+                                        {t("Courses")}
                                     </NavItem>
-                                    <NavItem href="/about">
-                                        <Trans>About</Trans>
+                                    <NavItem href="/messages">
+                                        {t("Messages")}
                                     </NavItem>
                                     <NavItem href="/contacts">
-                                        <Trans>Contacts</Trans>
+                                        {t("Contacts")}
                                     </NavItem>
+                                    <ChangeLanguageDropdown />
                                 </>
                             ) : (
                                 <div
                                     style={{
                                         display: "flex",
+                                        justifyContent: "space-evenly",
                                         width: "100%",
                                     }}
                                 >
                                     {isRegister && (
                                         <NavItem addStyle="navButton" href="/">
-                                            <Trans>Login</Trans>
+                                            {t("Login")}
                                         </NavItem>
                                     )}
                                     {!isRegister && (
@@ -104,13 +106,14 @@ function NavBar(props) {
                                             addStyle="navButton"
                                             href="/register"
                                         >
-                                            <Trans>Register</Trans>
+                                            {t("Register")}
                                         </NavItem>
                                     )}
+                                    <ChangeLanguageDropdown />
                                 </div>
                             )}
                         </List>
-                        {isLogin && <LogoutDropdown />}
+                        {isLogin && <LogoutDropdown t={t} />}
                     </>
                 )}
                 {menuBtnVisible && (
@@ -154,7 +157,7 @@ function NavBar(props) {
                                         handleBtnClick={handleLogout}
                                         btnClassName="btnAccentBlue"
                                     >
-                                        <Trans>Logout</Trans>
+                                        {t("Logout")}
                                     </StyledButton>
                                 </>
                             ) : (
@@ -173,7 +176,7 @@ function NavBar(props) {
                                             addStyle="sidebarItem"
                                             href="/"
                                         >
-                                            <Trans>Login</Trans>
+                                            {t("Login")}
                                         </NavItem>
                                     </ListItem>
                                     <ListItem
@@ -190,11 +193,12 @@ function NavBar(props) {
                                             addStyle="sidebarItem"
                                             href="/register"
                                         >
-                                            <Trans>Register</Trans>
+                                            {t("Register")}
                                         </NavItem>
                                     </ListItem>
                                 </>
                             )}
+                            <ChangeLanguageDropdown isDrawer={true} />
                         </List>
                     </Drawer>
                 )}
@@ -215,4 +219,7 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(NavBar);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withNamespaces()(NavBar));

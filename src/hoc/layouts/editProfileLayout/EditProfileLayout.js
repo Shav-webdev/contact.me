@@ -18,10 +18,11 @@ const useStyles = makeStyles({
     },
 });
 function EditProfileLayout(props) {
+    const classes = useStyles();
+
     useEffect(() => {
         document.body.classList.add(classes.greyBg);
-    }, []);
-    const classes = useStyles();
+    }, [classes.greyBg]);
 
     return (
         <>
