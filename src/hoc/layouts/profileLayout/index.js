@@ -19,7 +19,8 @@ const useStyles = makeStyles({
         flexDirection: "row",
         flexWrap: "wrap",
         width: "100%",
-        marginTop: 95,
+        marginTop: 120,
+        marginLeft: 50,
     },
     greyBg: {
         backgroundColor: "#ccc",

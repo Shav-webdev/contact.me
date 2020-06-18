@@ -1,8 +1,8 @@
 import React from "react";
-import classes from "./index.module.less";
+import classes from "./messages.module.scss";
 
 function Messages() {
-    return <div>Messages</div>;
+    return <div className={classes.messageSect}>Messages</div>;
 }
 
 export default React.memo(Messages);

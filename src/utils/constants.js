@@ -8,6 +8,8 @@ export const messageType = {
     successType: "success",
 };
 
+export const ENDPOINT = "http://localhost:3002/";
+
 export const momentConstants = {
     TIME_ZONE: "Asia/Yerevan",
     en: "en-au",

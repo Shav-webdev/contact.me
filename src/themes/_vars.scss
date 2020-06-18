@@ -1,0 +1,24 @@
+$primary-color: #3f51b4;
+$border-radius: 5px;
+$scrollbar-width: 10px;
+$scrollbar-transition: .2s;
+$scrollbar-box-shadow: inset 0 0 5px #7d7df6;
+$scrollbar-border-radius-outer: 15px;
+$scrollbar-border-radius-inner: 10px;
+$scrollbar-background: #3f51b4;
+$scrollbar-background-hover: #5a6fc4;
+
+
+// breakpoints
+
+// Small tablets and large smartphones (landscape view)
+$screen-sm-min: 576px;
+
+// Small tablets (portrait view)
+$screen-md-min: 768px;
+
+// Tablets and small desktops
+$screen-lg-min: 992px;
+
+// Large tablets and desktops
+$screen-xl-min: 1200px;

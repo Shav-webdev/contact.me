@@ -25,11 +25,11 @@ import { withNamespaces } from "react-i18next";
 import ChangeLanguageDropdown from "../../components/changeLanguageDropdown";
 
 function NavBar(props) {
-    const { t } = props;
-    const { logout, isLogin, isRegister } = props;
+    const { logout, isLogin, isRegister, t, userId } = props;
     const [open, setOpen] = useState(false);
     const [menuBtnVisible, setMenuBtnVisible] = useState(false);
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
     useEffect(() => {
         if (windowWidth > 764) {
             setMenuBtnVisible(false);
@@ -80,7 +80,7 @@ function NavBar(props) {
                                     <NavItem href="/courses">
                                         {t("Courses")}
                                     </NavItem>
-                                    <NavItem href="/messages">
+                                    <NavItem href={`/messages?id=${userId}`}>
                                         {t("Messages")}
                                     </NavItem>
                                     <NavItem href="/contacts">
@@ -209,8 +209,10 @@ function NavBar(props) {
 
 const mapStateToProps = state => {
     const { auth } = state;
-    const { isLogin } = auth;
-    return { isLogin };
+    const { isLogin, authData } = auth;
+    const { userId } = authData;
+
+    return { isLogin, userId };
 };
 
 const mapDispatchToProps = dispatch => {

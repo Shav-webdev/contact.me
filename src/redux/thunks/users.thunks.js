@@ -9,6 +9,9 @@ import {
     showRequestMessage,
     hideAuthMessage,
     hideRequestMessage,
+    getAllUsersRequest,
+    getAllUsersSuccess,
+    getAllUsersFailure,
 } from "../actions";
 import config from "../../utils/config";
 import { queryMessages } from "../../utils/constants";
@@ -25,6 +28,20 @@ export const getUserThunk = id => async dispatch => {
     } catch (e) {
         console.log(e);
         dispatch(getUserByIdFailure());
+    }
+};
+
+export const getAllUsersThunk = () => async dispatch => {
+    try {
+        dispatch(getAllUsersRequest());
+        const response = await api.getAllUser().get();
+        if (response.status !== 200) {
+            throw new Error(response.data.message);
+        }
+        dispatch(getAllUsersSuccess(response.data.users));
+    } catch (e) {
+        console.log(e);
+        dispatch(getAllUsersFailure());
     }
 };
 

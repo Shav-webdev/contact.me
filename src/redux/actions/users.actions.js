@@ -7,6 +7,9 @@ import {
     UPLOAD_AVATAR_FAILURE,
     HIDE_REQUEST_MESSAGE,
     SHOW_REQUEST_MESSAGE,
+    GET_ALL_USERS_REQUEST,
+    GET_ALL_USERS_SUCCESS,
+    GET_ALL_USERS_FAILURE,
 } from "./constants";
 
 export const getUserByIdRequest = () => ({
@@ -18,6 +21,16 @@ export const getUserByIdSuccess = data => ({
 });
 export const getUserByIdFailure = () => ({
     type: GET_USER_BY_ID_FAILURE,
+});
+export const getAllUsersRequest = () => ({
+    type: GET_ALL_USERS_REQUEST,
+});
+export const getAllUsersSuccess = data => ({
+    type: GET_ALL_USERS_SUCCESS,
+    payload: data,
+});
+export const getAllUsersFailure = () => ({
+    type: GET_ALL_USERS_FAILURE,
 });
 export const uploadAvatarRequest = () => ({
     type: UPLOAD_AVATAR_REQUEST,

@@ -7,6 +7,9 @@ import {
     UPLOAD_AVATAR_FAILURE,
     HIDE_REQUEST_MESSAGE,
     SHOW_REQUEST_MESSAGE,
+    GET_ALL_USERS_REQUEST,
+    GET_ALL_USERS_SUCCESS,
+    GET_ALL_USERS_FAILURE,
 } from "../actions/constants";
 
 const initialState = {
@@ -16,6 +19,8 @@ const initialState = {
     requestMessage: "",
     msgType: null,
     showReqMessage: false,
+    allUsers: [],
+    gettingAllUsers: false,
 };
 
 export default function usersReducer(state = initialState, action) {
@@ -35,6 +40,22 @@ export default function usersReducer(state = initialState, action) {
             return {
                 ...state,
                 gettingUser: false,
+            };
+        case GET_ALL_USERS_REQUEST:
+            return {
+                ...state,
+                gettingAllUsers: true,
+            };
+        case GET_ALL_USERS_SUCCESS:
+            return {
+                ...state,
+                gettingAllUsers: false,
+                allUsers: [...action.payload],
+            };
+        case GET_ALL_USERS_FAILURE:
+            return {
+                ...state,
+                gettingAllUsers: false,
             };
         case UPLOAD_AVATAR_REQUEST:
             return {

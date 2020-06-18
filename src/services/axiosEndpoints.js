@@ -31,6 +31,7 @@ export default {
     register: new Endpoint("register"),
     loginAdmin: new Endpoint("admin"),
     getUserById: id => new Endpoint("users/" + id),
+    getAllUser: () => new Endpoint("users/"),
     updateUserData: id => new Endpoint("users/" + id),
     createCourse: new Endpoint("courses"),
     getCourses: new Endpoint("courses"),
