@@ -113,6 +113,10 @@ const usersSchema = new Schema({
         type: Number,
         default: () => Number(Date.now()),
     },
+    isOnline: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 module.exports = model("User", usersSchema);

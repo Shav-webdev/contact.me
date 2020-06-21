@@ -14,7 +14,10 @@ export default function FormItem({
     required,
     showValidationText,
     inputValue,
+    handleKeyPress,
 }) {
+    const inputRef = React.createRef();
+
     const handleInputChange = useCallback(
         e => {
             const value = e.target.value;
@@ -31,8 +34,29 @@ export default function FormItem({
         }
     };
 
+    const handleShowPass = () => {
+        if (inputRef.current.id === "Password") {
+            if (inputRef.current.type === "password") {
+                inputRef.current.type = "text";
+            } else {
+                inputRef.current.type = "password";
+            }
+        }
+        inputRef.current.focus();
+    };
+
+    const onHandleKeyPress = e => {
+        handleKeyPress(e);
+    };
+
     return (
         <TextField
+            inputRef={inputRef}
+            onKeyPress={
+                handleKeyPress instanceof Function
+                    ? e => onHandleKeyPress(e)
+                    : null
+            }
             style={{ marginBottom: "1rem" }}
             id={`${label}`}
             error={showValidationText}
@@ -47,7 +71,17 @@ export default function FormItem({
             helperText={showValidationText ? validationText : null}
             InputProps={{
                 startAdornment: (
-                    <InputAdornment position="start">{icon}</InputAdornment>
+                    <InputAdornment
+                        style={{ cursor: "pointer" }}
+                        onClick={
+                            handleShowPass instanceof Function
+                                ? handleShowPass
+                                : null
+                        }
+                        position="start"
+                    >
+                        {icon}
+                    </InputAdornment>
                 ),
             }}
         />

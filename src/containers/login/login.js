@@ -24,16 +24,22 @@ function Login(props) {
     const [showEmailValidText, setShowEmailValidText] = useState(false);
     const [showPassValidText, setShowPassValidText] = useState(false);
 
+    const loginBtnRef = React.createRef();
+
     useEffect(() => {
-        if (!email) {
-            setIsBtnDisabled(true);
-        } else if (!pass) {
-            setIsBtnDisabled(true);
-        } else if (!email && !pass) {
-            setIsBtnDisabled(true);
-        } else {
-            setIsBtnDisabled(false);
-        }
+        const checkIsLoginBtnDisabled = () => {
+            if (!email) {
+                setIsBtnDisabled(true);
+            } else if (!pass) {
+                setIsBtnDisabled(true);
+            } else if (!email && !pass) {
+                setIsBtnDisabled(true);
+            } else {
+                setIsBtnDisabled(false);
+            }
+        };
+        checkIsLoginBtnDisabled();
+        return () => checkIsLoginBtnDisabled();
     }, [email, pass]);
 
     const getEmailValue = email => {
@@ -72,6 +78,15 @@ function Login(props) {
         }
     };
 
+    const handleEnterKeyPress = e => {
+        if (e && e.charCode && e.charCode === 13) {
+            loginBtnRef.current.focus();
+            if (isEmailValueValid && isPassValueValid) {
+                onLoginBtnClick();
+            }
+        }
+    };
+
     return (
         <div className={classes.loginWrapper}>
             <div className={classes.loginHeadingWrapper}>
@@ -95,6 +110,7 @@ function Login(props) {
                 </Grid>
                 <Grid item xs={12}>
                     <FormItem
+                        handleKeyPress={handleEnterKeyPress}
                         inputValue={pass}
                         showValidationText={showPassValidText}
                         isValueValid={isPassValid}
@@ -110,6 +126,7 @@ function Login(props) {
                 </Grid>
             </Grid>
             <Button
+                ref={loginBtnRef}
                 disabled={isBtnDisabled}
                 onClick={onLoginBtnClick}
                 variant="contained"

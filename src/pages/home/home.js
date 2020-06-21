@@ -21,10 +21,14 @@ function Home(props) {
     } = props;
 
     useEffect(() => {
-        autoLogin();
-        if (isLogin) {
-            history.push("/profile/" + userId);
-        }
+        const checkAuth = () => {
+            autoLogin();
+            if (isLogin) {
+                history.push("/profile/" + userId);
+            }
+        };
+        checkAuth();
+        return () => checkAuth();
     }, [isLogin, userId, autoLogin]);
 
     if (signing) {

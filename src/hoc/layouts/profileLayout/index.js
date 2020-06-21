@@ -6,6 +6,11 @@ import NavBar from "../../../containers/navbar/navbar";
 import Aside from "../../sections/aside";
 import ProfileInfo from "../../../containers/profileInfo/profileInfo";
 import { makeStyles } from "@material-ui/styles";
+import queryString from "query-string";
+import io from "socket.io-client";
+import { ENDPOINT } from "../../../utils/constants";
+import { connect } from "react-redux";
+import { isUserOnlineThunk } from "../../../redux/thunks";
 
 const useStyles = makeStyles({
     main: {
@@ -19,20 +24,35 @@ const useStyles = makeStyles({
         flexDirection: "row",
         flexWrap: "wrap",
         width: "100%",
-        marginTop: 120,
-        marginLeft: 50,
+        padding: "110px 25px 0",
     },
     greyBg: {
         backgroundColor: "#ccc",
+        overflowX: "hidden",
     },
 });
 
-export default function ProfileLayout(props) {
+function ProfileLayout(props) {
+    const { isUserOnline } = props;
     const classes = useStyles();
-
+    let socket;
     useEffect(() => {
         document.body.classList.add(classes.greyBg);
     }, [classes.greyBg]);
+
+    useEffect(() => {
+        const { id } = queryString.parse(props?.location?.search);
+        socket = io(ENDPOINT);
+        socket.emit("join", { id });
+        socket.on("isUserOnline", data => {
+            isUserOnline(data);
+        });
+
+        return () => {
+            socket.emit("disconnect", { id });
+            socket.off();
+        };
+    }, [ENDPOINT, props?.location?.search]);
 
     return (
         <>
@@ -49,3 +69,11 @@ export default function ProfileLayout(props) {
         </>
     );
 }
+
+const mapDispatchToProps = dispatch => {
+    return {
+        isUserOnline: data => dispatch(isUserOnlineThunk(data)),
+    };
+};
+
+export default connect(null, mapDispatchToProps)(React.memo(ProfileLayout));

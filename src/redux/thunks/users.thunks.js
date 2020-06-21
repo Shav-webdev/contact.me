@@ -12,6 +12,7 @@ import {
     getAllUsersRequest,
     getAllUsersSuccess,
     getAllUsersFailure,
+    isUserOnline,
 } from "../actions";
 import config from "../../utils/config";
 import { queryMessages } from "../../utils/constants";
@@ -101,4 +102,8 @@ export const uploadUserAvatarThunk = (id, file) => async dispatch => {
             setTimeout(() => dispatch(hideRequestMessage()), 4000);
         }
     }
+};
+
+export const isUserOnlineThunk = data => dispatch => {
+    dispatch(isUserOnline(data));
 };

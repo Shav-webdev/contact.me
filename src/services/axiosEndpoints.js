@@ -36,6 +36,9 @@ export default {
     createCourse: new Endpoint("courses"),
     getCourses: new Endpoint("courses"),
     getUserCourses: id => new Endpoint("courses/" + id),
+    newMessage: new Endpoint("messages"),
+    getMessageByRoomId: roomId => new Endpoint("messages/" + roomId),
+    deleteMessage: id => new Endpoint("messages/" + id),
     uploadAvatar: new ImageEndpoint("/upload"),
     getWeatherByCity: city =>
         new WeatherEndpoint(`${city}&appid=${config.WEATHER_API_KEY}`),

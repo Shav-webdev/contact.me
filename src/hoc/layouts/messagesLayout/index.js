@@ -9,30 +9,14 @@ import { connect } from "react-redux";
 import { getAllUsersThunk } from "../../../redux/thunks";
 import UsersList from "../../../pages/messages/components/usersList";
 import AppSpinner from "../../../components/spinners/appSpinner/appSpinner";
-import queryString from "query-string";
-import io from "socket.io-client";
-import { ENDPOINT } from "../../../utils/constants";
 
 /**
  * @component TODO MessagesLayout add userList to create chat */
 function MessagesLayout(props) {
-    const { getAllUsers, allUsers, gettingAllUsers, children } = props;
-    let socket;
+    const { getAllUsers, allUsers, gettingAllUsers } = props;
     useEffect(() => {
         getAllUsers();
     }, [getAllUsers]);
-
-    useEffect(() => {
-        const { id } = queryString.parse(children?.props?.location?.search);
-        socket = io(ENDPOINT);
-        socket.emit("join", { id });
-        console.log(socket);
-
-        return () => {
-            socket.emit("disconnect");
-            socket.off();
-        };
-    }, [ENDPOINT, children?.props?.location?.search]);
 
     const userListProps = () => {
         return {
@@ -51,9 +35,7 @@ function MessagesLayout(props) {
                 <NavBar />
             </Header>
             <div className={classes.wrapper}>
-                <Aside>
-                    <UsersList {...userListProps()} />
-                </Aside>
+                <UsersList {...userListProps()} />
                 <Main>{props.children}</Main>
             </div>
             <Footer />
@@ -62,8 +44,9 @@ function MessagesLayout(props) {
 }
 
 const mapStateToProps = state => {
-    const { users } = state;
+    const { users, messages } = state;
     const { allUsers, gettingAllUsers } = users;
+
     return {
         allUsers,
         gettingAllUsers,

@@ -8,9 +8,20 @@
 }
 
 .avatarSection {
+    position: relative;
     padding: 1rem .5rem;
 }
 
 .infoWrapper {
     padding: 1rem .5rem;
+}
+
+.onlineIndicator {
+    position: absolute;
+    top: 20px;
+    right: -20px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #8d9a14;
 }

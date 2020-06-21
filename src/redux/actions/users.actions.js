@@ -10,6 +10,7 @@ import {
     GET_ALL_USERS_REQUEST,
     GET_ALL_USERS_SUCCESS,
     GET_ALL_USERS_FAILURE,
+    USER_IS_ONLINE,
 } from "./constants";
 
 export const getUserByIdRequest = () => ({
@@ -49,4 +50,8 @@ export const showRequestMessage = data => ({
 });
 export const hideRequestMessage = () => ({
     type: HIDE_REQUEST_MESSAGE,
+});
+export const isUserOnline = data => ({
+    type: USER_IS_ONLINE,
+    payload: data,
 });

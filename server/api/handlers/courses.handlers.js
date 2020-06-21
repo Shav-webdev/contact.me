@@ -34,7 +34,6 @@ module.exports.createCourse = async (req, res) => {
 };
 
 module.exports.getCourses = async (req, res) => {
-    console.log(req.params);
     const courses = await Course.find({}).sort({
         createdTime: -1,
     });
@@ -49,7 +48,6 @@ module.exports.getCourses = async (req, res) => {
 };
 
 module.exports.getActiveCourses = async (req, res) => {
-    console.log(req.params);
     if (req.params && req.params.status) {
         const { status } = req.params;
         const courses = await Course.find({ status }).sort({

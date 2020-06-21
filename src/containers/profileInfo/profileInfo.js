@@ -8,12 +8,20 @@ import { withNamespaces } from "react-i18next";
 function ProfileInfo(props) {
     const { users, t } = props;
     const { userData } = users;
-    const { approved, avatar, firstName, lastName, phoneNumber } = userData;
+    const {
+        approved,
+        avatar,
+        firstName,
+        lastName,
+        phoneNumber,
+        isOnline,
+    } = userData;
 
     useEffect(() => {}, [approved, avatar, firstName, lastName, phoneNumber]);
     return (
         <div className={classes.wrapper}>
             <div className={classes.avatarSection}>
+                {isOnline && <span className={classes.onlineIndicator} />}
                 <ProfileAvatar
                     url={avatar}
                     alt={`${firstName} avatar`}

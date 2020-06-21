@@ -1,9 +1,20 @@
 import React, { useEffect } from "react";
 import classes from "../messages.module.scss";
 import ProfileAvatar from "../../../components/avatar/profileAvatar";
+import history from "../../../routes/history";
+import { connect } from "react-redux";
+import {
+    createMessageThunk,
+    getMessagesByRoomIdThunk,
+} from "../../../redux/thunks";
 
-function UsersList({ allUsers, gettingAllUsers }) {
+function UsersList({ allUsers, gettingAllUsers, userId, getMessages }) {
     useEffect(() => {}, [gettingAllUsers, allUsers]);
+
+    const handleUserClick = id => {
+        history.push(`/messages?roomId=${id}${userId}`);
+        getMessages(`${id}${userId}`);
+    };
 
     return (
         <div className={classes.usersMessagesWrapper}>
@@ -12,6 +23,7 @@ function UsersList({ allUsers, gettingAllUsers }) {
                     allUsers.map(user => {
                         return (
                             <li
+                                onClick={() => handleUserClick(user._id)}
                                 key={user._id}
                                 className={classes.usersListItem}
                             >
@@ -38,4 +50,22 @@ function UsersList({ allUsers, gettingAllUsers }) {
     );
 }
 
-export default React.memo(UsersList);
+const mapStateToProps = state => {
+    const { auth } = state;
+    const { authData } = auth;
+    const { userId } = authData;
+    return {
+        userId,
+    };
+};
+const mapDispatchToProps = dispatch => {
+    return {
+        onMessageSend: message => dispatch(createMessageThunk(message)),
+        getMessages: roomId => dispatch(getMessagesByRoomIdThunk(roomId)),
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(React.memo(UsersList));

@@ -77,6 +77,7 @@ export const userLoginThunk = data => async dispatch => {
         dispatch(authSuccess(responseAuth.token));
         dispatch(signInSuccess(response.data.auth));
         dispatch(autoLogOutThunk(responseAuth.expiresIn));
+        history.push("/profile/" + response.data.auth.userId);
         setTimeout(() => dispatch(hideAuthMessage()), 4000);
     } catch (error) {
         dispatch(authFailure());

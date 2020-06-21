@@ -10,6 +10,7 @@ import {
     GET_ALL_USERS_REQUEST,
     GET_ALL_USERS_SUCCESS,
     GET_ALL_USERS_FAILURE,
+    USER_IS_ONLINE,
 } from "../actions/constants";
 
 const initialState = {
@@ -86,6 +87,11 @@ export default function usersReducer(state = initialState, action) {
                 showReqMessage: false,
                 requestMessage: "",
                 msgType: null,
+            };
+        case USER_IS_ONLINE:
+            return {
+                ...state,
+                userData: { ...state.userData, ...action.payload },
             };
         default:
             return state;

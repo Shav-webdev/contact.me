@@ -6,7 +6,8 @@ const auth = require("./api/routes/auth.routes");
 const { db } = require("../server/db/db");
 const users = require("./api/routes/users.routes");
 const courses = require("./api/routes/courses.routes");
-const socket_io = require("socket.io");
+const messages = require("./api/routes/messages.routes");
+const socketIO = require("./sockets/index");
 const path = require("path");
 require("dotenv").config({
     path: path.join(__dirname, "../.env"),
@@ -23,6 +24,7 @@ app.use(cors());
 app.use(auth);
 app.use(users);
 app.use(courses);
+app.use(messages);
 
 const PORT = process.env.PORT || 3001;
 
@@ -33,21 +35,5 @@ const server = app.listen(PORT, err => {
     console.log(`Server is running on port ${PORT}...`);
 });
 
-const io = socket_io(server);
-
-io.on("connection", socket => {
-    console.log("We have a new connection !!!");
-    socket.on("disconnect", () => {
-        console.log("User has left !!!");
-    });
-
-    socket.on("join", ({ id }) => {
-        console.log(`User joined with id ${id}`);
-    });
-    // socket.emit("news", { hello: "world" });
-    // socket.on("my other event", data => {
-    //     console.log(data);
-    // });
-});
-
+socketIO(server);
 db(server);

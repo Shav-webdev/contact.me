@@ -57,7 +57,6 @@ function ChangeLanguageDropdown(props) {
     };
 
     const changeLanguage = async lng => {
-        // console.log("changeLanguage", lng);
         changeMomentLocale(momentConstants[lng]);
         await i18n.changeLanguage(lng);
     };
